@@ -1,0 +1,19 @@
+﻿<wnd:BaseWindow
+        x:Class="firework.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wnd="clr-namespace:UIBase.window;assembly=UIBase"
+        xmlns:ct="clr-namespace:UIBase.controls;assembly=UIBase"
+        xmlns:local="clr-namespace:Reykjavik"
+        xmlns:views="clr-namespace:Reykjavik.views"
+        mc:Ignorable="d"
+        Style="{DynamicResource BaseWindowStyle}"
+        Title="MainWindow" Height="600" Width="800">
+    <wnd:BaseWindow.Resources>
+        <ResourceDictionary Source="pack://application:,,,/UIBase;Component/window/BaseWindowStyle.xaml" />
+    </wnd:BaseWindow.Resources>
+    <views:MainView />
+
+</wnd:BaseWindow>

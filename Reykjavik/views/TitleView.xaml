@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Reykjavik.views.TitleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Reykjavik.views"
+             mc:Ignorable="d" 
+             d:DesignHeight="32" d:DesignWidth="400">
+    <StackPanel Orientation="Horizontal">
+        <Image Margin="15 0 10 0" VerticalAlignment="Center" Source="{DynamicResource IconDrawingImage}" Height="24" Width="24">
+            <Image.Clip>
+                <GeometryGroup FillRule="Nonzero">
+                    <EllipseGeometry RadiusX="12" RadiusY="12" Center="12,12"/>
+                </GeometryGroup>
+            </Image.Clip>
+        </Image>
+        <TextBlock VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource textColorPrimary}"  FontWeight="Bold">Reykjavik</TextBlock>
+    </StackPanel>
+</UserControl>

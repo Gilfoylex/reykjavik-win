@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.19.1" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.40.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.42.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+	<!--配置项参考： https://github.com/grpc/grpc/blob/master/src/csharp/BUILD-INTEGRATION.md
+	这里需要注意，由于xray的protobuf声明文件位置太多，所以这里只编辑需要rpc的服务proto文件，其他的用protoc csharp_out 生成拷贝过来即可
+	-->
+	<ItemGroup>
+		<Protobuf Include="xray_grpc_define\app\proxyman\command\command.proto" ProtoRoot="xray_grpc_define" OutputDir="xray_grpc_define" CompileOutputs="false" GrpcServices="Client" />
+		<Protobuf Include="xray_grpc_define\app\stats\command\command.proto" ProtoRoot="xray_grpc_define" OutputDir="xray_grpc_define" CompileOutputs="false" GrpcServices="Client" />
+		<Protobuf Include="xray_grpc_define\app\log\command\config.proto" ProtoRoot="xray_grpc_define" OutputDir="xray_grpc_define" CompileOutputs="false" GrpcServices="Client" />
+	</ItemGroup>
+</Project>
