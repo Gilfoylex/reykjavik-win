@@ -24,7 +24,7 @@ namespace Reykjavik.views
         public MainView()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = MainViewModel.Instance;
         }
     }
 }

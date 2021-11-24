@@ -53,8 +53,8 @@ namespace UIBase.controls
 
         public VerticalAlignment TextVerAlignment
         {
-            get { return (VerticalAlignment)GetValue(TextVerAlignmentProperty); }
-            set { SetValue(TextVerAlignmentProperty, value); }
+            get => (VerticalAlignment)GetValue(TextVerAlignmentProperty);
+            set => SetValue(TextVerAlignmentProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for TextHoriAlignment.  This enables animation, styling, binding, etc...
@@ -66,16 +66,16 @@ namespace UIBase.controls
             DependencyProperty.Register("HoverBorderBrush", typeof(Brush), typeof(TextButtonBase));
         public Brush HoverBorderBrush
         {
-            get { return (Brush)GetValue(HoverBorderBrushProperty); }
-            set { SetValue(HoverBorderBrushProperty, value); }
+            get => (Brush)GetValue(HoverBorderBrushProperty);
+            set => SetValue(HoverBorderBrushProperty, value);
         }
 
         public static readonly DependencyProperty PushBorderBrushProperty =
             DependencyProperty.Register("PushBorderBrush", typeof(Brush), typeof(TextButtonBase));
         public Brush PushBorderBrush
         {
-            get { return (Brush)GetValue(PushBorderBrushProperty); }
-            set { SetValue(PushBorderBrushProperty, value); }
+            get => (Brush)GetValue(PushBorderBrushProperty);
+            set => SetValue(PushBorderBrushProperty, value);
         }
 
         public static readonly DependencyProperty TextBtnTrimmingProperty = DependencyProperty.Register("TextBtnTrimming", typeof(TextTrimming), typeof(TextButtonBase));

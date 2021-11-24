@@ -6,7 +6,25 @@
              xmlns:local="clr-namespace:Reykjavik.views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/UIBase;Component/Themes/ScrollViewerStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary> 
+    </UserControl.Resources>
     <Grid>
-        <TextBlock>LogView</TextBlock> 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource textColorPrimary}" FontSize="14">XRay-Core日志：</TextBlock>
+        <ListBox BorderThickness="0" Style="{DynamicResource ListViewerStyle}" Background="{DynamicResource whiteOpacity60}" Grid.Row="1" ItemsSource="{Binding LogList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Foreground="{DynamicResource textColorPrimary}" FontSize="14" Text="{Binding .}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

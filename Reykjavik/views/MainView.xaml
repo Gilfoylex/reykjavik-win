@@ -18,7 +18,7 @@
             </DrawingImage.Drawing>
         </DrawingImage>
         <!--home 图标-->
-        <DrawingImage x:Key="home_icon_check">
+        <DrawingImage x:Key="home_icon_check">       
             <DrawingImage.Drawing>
                 <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
                     <GeometryDrawing Brush="{DynamicResource colorPrimary}" Geometry="F1 M24,24z M0,0z M12,5.69L17,10.19 17,18 15,18 15,12 9,12 9,18 7,18 7,10.19 12,5.69 M12,3L2,12 5,12 5,20 11,20 11,14 13,14 13,20 19,20 19,12 22,12 12,3z" />
@@ -59,7 +59,6 @@
         </DrawingImage>
 
         <Style x:Key="NavigationBtnStyle" TargetType="{x:Type ct:IconLeftButton}">
-            <Setter Property="Cursor" Value="Arrow" />
             <Setter Property="IconHeight" Value="24" />
             <Setter Property="IconWidth" Value="24" />
             <Setter Property="TextMargin" Value="10 0" />
@@ -103,10 +102,10 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Column ="1" Background="Transparent">
-            <Border Grid.Column="1" ClipToBounds="True" Background="White" Opacity="0.8" Margin="20" CornerRadius="10 10 10 10" />
-            <local:HomeView Padding="50" Visibility="{Binding CurrentTab, Converter={x:Static vt:CompareToShow.Instance}, ConverterParameter=home}" />
-            <local:ProxyView Padding="50" Visibility="{Binding CurrentTab, Converter={x:Static vt:CompareToShow.Instance}, ConverterParameter=proxy}" />
-            <local:LogView Padding="50" Visibility="{Binding CurrentTab, Converter={x:Static vt:CompareToShow.Instance}, ConverterParameter=log}" />
+            <Border ClipToBounds="True" Background="White" Opacity="0.8" Margin="20" CornerRadius="10 10 10 10" />
+            <local:HomeView Padding="40" Visibility="{Binding CurrentTab, Converter={x:Static vt:CompareToShow.Instance}, ConverterParameter=home}" />
+            <local:ProxyView Padding="40" Visibility="{Binding CurrentTab, Converter={x:Static vt:CompareToShow.Instance}, ConverterParameter=proxy}" />
+            <local:LogView Padding="40" Visibility="{Binding CurrentTab, Converter={x:Static vt:CompareToShow.Instance}, ConverterParameter=log}" />
         </Grid>
     </Grid>
 </UserControl>

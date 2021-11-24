@@ -1,31 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace XrayServer
 {
-    public class XrayProcessHelper
+    public class XRayProcessHelper
     {
-        private String _xrayPath = "";
-        private String _configPath = "";
-        private Process _process;
-        public XrayProcessHelper()
+        private readonly string _xrayPath;
+        private readonly string _configPath;
+        private readonly Process _process = new();
+        private bool _isRunning = false;
+
+        public Action<string>? OutputLineAction;
+        public XRayProcessHelper()
         {
             var currentPath = Environment.CurrentDirectory;
             _xrayPath = Path.Join(currentPath, "xray_x64.exe");
             _configPath = Path.Join(currentPath, "xray_config.json");
         }
 
-        public void Start()
+        public async void Start()
         {
-            Task.Run(() =>
+            if (_isRunning) return;
+
+            _isRunning = true;
+
+            await Task.Run(() =>
             {
                 try
                 {
-                    _process = new Process();
                     _process.StartInfo.UseShellExecute = false;
                     _process.StartInfo.FileName = _xrayPath;
                     _process.StartInfo.CreateNoWindow= true;
@@ -41,6 +42,7 @@ namespace XrayServer
                     while (ret != null)
                     {
                         Debug.WriteLine(ret);
+                        OutputLineAction?.Invoke(ret);
                         ret = reader.ReadLine();
                     }
 
@@ -51,12 +53,13 @@ namespace XrayServer
                     Debug.WriteLine(ex.Message);
                 }
             });
+
+            _isRunning = false;
         }
 
         public void Stop()
         {
-            if (_process != null)
-                _process.Kill();
+            _process.Kill();
         }
     }
 }

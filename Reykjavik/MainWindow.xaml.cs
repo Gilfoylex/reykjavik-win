@@ -46,7 +46,7 @@ namespace firework
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var y = new XrayServer.XrayProcessHelper();
+            var y = new XrayServer.XRayProcessHelper();
             y.Start();
         }
     }
