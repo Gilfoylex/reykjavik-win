@@ -30,17 +30,20 @@ namespace UIBase.window
             UpdateMaxBtn();
         }
 
-        public Grid RootGrid { get; private set; }
-        public Grid TitleBar { get; private set; }
-        public Grid TitleBarBg { get; private set; }
-        public Grid CaptionArea { get; private set; }
-        public Button MinimizeBtn { get; private set; }
-        public Button RestoreBtn { get; private set; }
-        public Button MaximizeBtn { get; private set; }
-        public Button CloseBtn { get; private set; }
+
+        public Grid? RootGrid { get; private set; }
+        public Grid? TitleBar { get; private set; }
+        public Grid? TitleBarBg { get; private set; }
+        public Grid? CaptionArea { get; private set; }
+        public Button? MinimizeBtn { get; private set; }
+        public Grid? MaxRestoreGrid { get; private set; }
+        public Button? RestoreBtn { get; private set; }
+        public Button? MaximizeBtn { get; private set; }
+        public Button? CloseBtn { get; private set; }
         public override void OnApplyTemplate()
         {
             RootGrid = GetRequiredTemplateChild<Grid>("RootGrid");
+            MaxRestoreGrid = GetRequiredTemplateChild<Grid>("MaxRestoreGrid");
             TitleBar = GetRequiredTemplateChild<Grid>("TitleBar");
             TitleBarBg = GetRequiredTemplateChild<Grid>("TitleBarBg");
             CaptionArea = GetRequiredTemplateChild<Grid>("CaptionArea");
@@ -54,6 +57,44 @@ namespace UIBase.window
             MaximizeBtn.Click += MaximizeBtn_Click;
             CloseBtn.Click += CloseBtn_Click;
             base.OnApplyTemplate();
+        }
+
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+            if (e.Property.Name == ResizeModeProperty.Name
+                && e.NewValue is ResizeMode resizeMode)
+            {
+                UpdateMinMaxRestoreBtnsStatus(resizeMode);
+            }
+        }
+
+        private void UpdateMinMaxRestoreBtnsStatus(ResizeMode resizeMode)
+        {
+            if (MinimizeBtn == null
+                || MaxRestoreGrid == null)
+                return;
+
+            if (resizeMode == ResizeMode.NoResize)
+            {
+                MinimizeBtn.Visibility = Visibility.Collapsed;
+                MaxRestoreGrid.Visibility = Visibility.Collapsed;
+            }
+            else if (resizeMode == ResizeMode.CanMinimize)
+            {
+                MinimizeBtn.Visibility = Visibility.Visible;
+                MaxRestoreGrid.Visibility = Visibility.Collapsed;
+            }
+            else if (resizeMode == ResizeMode.CanResize)
+            {
+                MinimizeBtn.Visibility = Visibility.Visible;
+                MaxRestoreGrid.Visibility = Visibility.Visible;
+            }
+            else if (resizeMode == ResizeMode.CanResizeWithGrip)
+            {
+                MinimizeBtn.Visibility = Visibility.Visible;
+                MaxRestoreGrid.Visibility = Visibility.Visible;
+            }
         }
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e)
@@ -87,19 +128,20 @@ namespace UIBase.window
             var source = HwndSource.FromHwnd(handle);
             source.AddHook(new HwndSourceHook(WpfHandleWindowMsg));
             UpdateMaxBtn();
+            UpdateMinMaxRestoreBtnsStatus(this.ResizeMode);
         }
 
         private void UpdateMaxBtn()
         {
             if (WindowState == WindowState.Maximized)
             {
-                RestoreBtn.Visibility = Visibility.Visible;
-                MaximizeBtn.Visibility = Visibility.Hidden;
+                if (RestoreBtn != null) RestoreBtn.Visibility = Visibility.Visible;
+                if (MaximizeBtn != null) MaximizeBtn.Visibility = Visibility.Hidden;
             }
             else
             {
-                RestoreBtn.Visibility = Visibility.Hidden;
-                MaximizeBtn.Visibility = Visibility.Visible;
+                if (RestoreBtn != null) RestoreBtn.Visibility = Visibility.Hidden;
+                if (MaximizeBtn != null) MaximizeBtn.Visibility = Visibility.Visible;
             }
         }
 

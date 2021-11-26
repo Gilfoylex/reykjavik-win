@@ -12,7 +12,7 @@ namespace UIBase.convert
     public class CompareToShow : IValueConverter
     {
         private static readonly Lazy<CompareToShow>
-            Lazy = new Lazy<CompareToShow>(() => new CompareToShow());
+            Lazy = new (() => new CompareToShow());
         public static CompareToShow Instance => Lazy.Value;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

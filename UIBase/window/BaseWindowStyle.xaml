@@ -102,18 +102,19 @@
                             <Grid Grid.Row="0" x:Name="TitleBar">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="32"/>
-                                    <ColumnDefinition Width="32"/>
-                                    <ColumnDefinition Width="32"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="12"/>
                                 </Grid.ColumnDefinitions>
                                 <!--可供拖动窗口的区域-->
                                 <Grid x:Name="CaptionArea"/>
-
-                                <ct:TitleBarButton x:Name="MinimizeBtn" IconHeight="24" IconWidth="24" Grid.Column="1" Style="{StaticResource BtStyle}" Icon="{StaticResource minimize_light}"></ct:TitleBarButton>
-                                <ct:TitleBarButton x:Name="MaximizeBtn" IconHeight="18" IconWidth="18" Grid.Column="2" Style="{StaticResource BtStyle}" Icon="{StaticResource maxmize_light}"></ct:TitleBarButton>
-                                <ct:TitleBarButton x:Name="RestoreBtn" IconHeight="18" IconWidth="18" Grid.Column="2" Style="{StaticResource BtStyle}" Icon="{StaticResource restore_light}"></ct:TitleBarButton>
-                                <ct:TitleBarButton x:Name="CloseBtn" IconHeight="24" IconWidth="24" Grid.Column="3" Style="{StaticResource CloseBtStyle}" Icon="{StaticResource close_light}"></ct:TitleBarButton>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <ct:TitleBarButton Width="30" x:Name="MinimizeBtn" IconHeight="24" IconWidth="24"  Style="{StaticResource BtStyle}" Icon="{StaticResource minimize_light}"></ct:TitleBarButton>
+                                    <Grid x:Name="MaxRestoreGrid">
+                                        <ct:TitleBarButton Width="30" x:Name="MaximizeBtn" IconHeight="18" IconWidth="18" Style="{StaticResource BtStyle}" Icon="{StaticResource maxmize_light}"></ct:TitleBarButton>
+                                        <ct:TitleBarButton Width="30" x:Name="RestoreBtn" IconHeight="18" IconWidth="18" Style="{StaticResource BtStyle}" Icon="{StaticResource restore_light}"></ct:TitleBarButton>
+                                    </Grid>
+                                    <ct:TitleBarButton Width="30" x:Name="CloseBtn" IconHeight="24" IconWidth="24" Style="{StaticResource CloseBtStyle}" Icon="{StaticResource close_light}"></ct:TitleBarButton>
+                                </StackPanel>
                             </Grid>
                             <Grid x:Name="ClientArea"
                                   Grid.Row="1"

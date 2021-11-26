@@ -1,41 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
 namespace UIBase.convert
 {
-    public class CompareToVisibility : IMultiValueConverter
+    public class CompareToVisibility : IValueConverter
     {
-        private static Lazy<CompareToVisibility> lazyInstance = new Lazy<CompareToVisibility>(() => new CompareToVisibility());
-        public static CompareToVisibility Instance => lazyInstance.Value;
+        private static readonly Lazy<CompareToVisibility>
+            Lazy = new (() => new CompareToVisibility());
+        public static CompareToVisibility Instance => Lazy.Value;
 
-
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            try
+            if (value != null && parameter != null)
             {
-                if (values[0] != null && values[1] != null)
-                {
-                    if (parameter == null)
-                    {
-                        if (values[0].ToString() == values[1].ToString())
-                            return Visibility.Visible;
-                    }
-                    else if (parameter.ToString() == "-")
-                    {
-                        if (values[0].ToString() == values[1].ToString())
-                            return Visibility.Collapsed;
-                        else
-                            return Visibility.Visible;
-                    }
-                }
+                return value.ToString() == parameter.ToString() ? Visibility.Visible : Visibility.Collapsed;
             }
-            catch { }
+
             return Visibility.Collapsed;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return null;
         }

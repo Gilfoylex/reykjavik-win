@@ -9,11 +9,16 @@
         xmlns:local="clr-namespace:Reykjavik"
         xmlns:views="clr-namespace:Reykjavik.views"
         mc:Ignorable="d"
+        ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
         Style="{DynamicResource BaseWindowStyle}"
         Title="Reykjavik-win" Height="600" Width="800">
     <wnd:BaseWindow.Resources>
-        <ResourceDictionary Source="pack://application:,,,/UIBase;Component/window/BaseWindowStyle.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/UIBase;Component/window/BaseWindowStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </wnd:BaseWindow.Resources>
 
     <views:MainView />

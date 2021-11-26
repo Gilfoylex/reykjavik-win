@@ -1,18 +1,11 @@
 ﻿using Reykjavik.views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Reykjavik.models;
+using Reykjavik.view_models;
 
 namespace firework
 {
@@ -33,10 +26,14 @@ namespace firework
         {
             var bg = new ImageBrush();
             bg.ImageSource = (ImageSource)FindResource("IconDrawingImage");
-            RootGrid.Background = bg;
-            TitleBarBg.Background = new SolidColorBrush(Colors.White);
-            TitleBarBg.Opacity = 0.6;
-            CaptionArea.Children.Add(new TitleView());
+            if (RootGrid != null) RootGrid.Background = bg;
+            if (TitleBarBg != null)
+            {
+                TitleBarBg.Background = new SolidColorBrush(Colors.White);
+                TitleBarBg.Opacity = 0.6;
+            }
+
+            CaptionArea?.Children.Add(new TitleView());
         }
 
         private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)

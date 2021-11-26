@@ -1,10 +1,12 @@
 ﻿using MvvmHelpers;
 using MvvmHelpers.Commands;
+using Reykjavik.models.XRayConfigDefine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Reykjavik.models;
 
 namespace Reykjavik.view_models
 {
@@ -28,15 +30,100 @@ namespace Reykjavik.view_models
             CurrentTab = tabName;
         });
 
+        #region XRay进程和配置相关
+
+
+        public string GetXRayConfig()
+        {
+            var config = new XRayConfig
+            {
+                api = DefaultXRayConfig.ApiConfig,
+                log = DefaultXRayConfig.LogConfig,
+                routing = DefaultXRayConfig.RoutingConfig,
+                policy = DefaultXRayConfig.PolicyConfig,
+                inbounds = DefaultXRayConfig.InBoundConfigs,
+                outbounds = DefaultXRayConfig.OutboundConfigs
+            };
+
+            var x = new VnextVless()
+            {
+                address = "gilfoylex.tk",
+                port = 443,
+                users = new List<VLessUser>()
+                {
+                    new()
+                    {
+                        id = "45dad708-71ab-4d55-966c-42503100897a",
+                        encryption = "none",
+                        level = 0,
+                        email = "gaoruiqi@vmessws.com"
+                    }
+                }
+            };
+
+            config.outbounds.Insert(0,new Outbound()
+            {
+                tag = "vless_ws",
+                protocol = "vless",
+                settings = new VLessOut()
+                {
+                    vnext = new List<VnextVless>()
+                    {
+                        new VnextVless()
+                        {
+                            address = "gilfoylex.tk",
+                            port = 443,
+                            users = new List<VLessUser>()
+                            {
+                                new ()
+                                {
+                                    id = "45dad708-71ab-4d55-966c-42503100897a",
+                                    encryption = "none",
+                                    level = 0,
+                                    email = "gaoruiqi@vmessws.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                streamSettings = new StreamSettings()
+                {
+                    network = "ws",
+                    security = "tls",
+                    tlsSettings = new TlsSettings()
+                    {
+                        serverName = "gilfoylex.tk"
+                    },
+                    wsSettings = new WsSettings
+                    {
+                        acceptProxyProtocol = true,
+                        path = @"/ray"
+                    }
+                }
+            });
+
+            var ret = "{}";
+            try
+            {
+                ret = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            return ret;
+        }
+
         private readonly XrayServer.XRayProcessHelper _xRayProcessHelper = new();
 
-        private void StartXray()
+        private void StartXRay()
         {
             _xRayProcessHelper.OutputLineAction += AddLogLine;
             _xRayProcessHelper.Start();
         }
 
-        private void StopXray()
+        private void StopXRay()
         {
             _xRayProcessHelper.OutputLineAction -= AddLogLine;
             _xRayProcessHelper.Stop();
@@ -46,14 +133,17 @@ namespace Reykjavik.view_models
 
         public Command TestStartCommand => _testStart ??= new Command((param) =>
         {
-            StartXray();
+            StartXRay();
         });
 
         private Command? _testStop;
 
         public Command TestStopCommand => _testStop ??= new Command((param) =>
         {
-            StopXray();
+            StopXRay();
         });
+
+        #endregion
+
     }
 }

@@ -15,10 +15,6 @@
     <ProjectReference Include="..\XrayServer\XrayServer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="models\" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy /y /s /r /f  /i  .\xray_bin\ $(OutDir)" />
   </Target>
