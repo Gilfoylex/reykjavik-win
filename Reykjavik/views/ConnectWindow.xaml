@@ -11,70 +11,12 @@
                 mc:Ignorable="d"
                 ResizeMode="NoResize"
                 WindowStartupLocation="CenterOwner"
-                Title="ConnectWindow" Height="560" Width="300">
+                Title="ConnectWindow" Height="600" Width="300">
     <wnd:BaseWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/UIBase;Component/window/BaseWindowStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="SubTitle" TargetType="{x:Type Label}">
-                <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}" />
-                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                <Setter Property="FontSize" Value="12" />
-                <Setter Property="Margin" Value="10,0,0,0"></Setter>
-            </Style>
-
-            <Style x:Key="RadioStyle" TargetType="{x:Type ct:TextRadioButton}">
-                <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}" />
-                <Setter Property="HoverForeground" Value="{DynamicResource textColorPrimary}"/>
-                <Setter Property="PushForeground" Value="White" />
-                <Setter Property="PushBackground" Value="{DynamicResource colorPrimary}" />
-                <Setter Property="HoverBackground" Value="Gray" />
-                <Setter Property="Background" Value="Gray"></Setter>
-                <Setter Property="BorderRadius" Value="5"></Setter>
-                <Setter Property="Margin" Value="0,0,10,0"></Setter>
-                <Setter Property="FontSize" Value="12" />
-            </Style>
-
-            <Style x:Key="BtnStyle" TargetType="{x:Type ct:TextButton}">
-                <Setter Property="Height" Value="25"></Setter>
-                <Setter Property="Width" Value="50"></Setter>
-                <Setter Property="Margin" Value="20 0, 20, 0"></Setter>
-                <Setter Property="Foreground" Value="White"></Setter>
-                <Setter Property="HoverForeground" Value="White"></Setter>
-                <Setter Property="PushForeground" Value="White"></Setter>
-                <Setter Property="Background" Value="{DynamicResource colorPrimary}"></Setter>
-                <Setter Property="HoverBackground" Value="{DynamicResource colorSecond}"></Setter>
-                <Setter Property="PushBackground" Value="{DynamicResource colorThird}"></Setter>
-                <Setter Property="BorderRadius" Value="5"></Setter>
-            </Style>
-
-            <DrawingImage x:Key="UnCheck">
-                <DrawingImage.Drawing>
-                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                        <GeometryDrawing Brush="{DynamicResource textColorPrimary}" Geometry="F1 M24,24z M0,0z M19,5L19,19 5,19 5,5 19,5 M19,3L5,3C3.9,3,3,3.9,3,5L3,19C3,20.1,3.9,21,5,21L19,21C20.1,21,21,20.1,21,19L21,5C21,3.9,20.1,3,19,3z" />
-                    </DrawingGroup>
-                </DrawingImage.Drawing>
-            </DrawingImage>
-
-            <DrawingImage x:Key="Check">
-                <DrawingImage.Drawing>
-                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                        <GeometryDrawing Brush="{DynamicResource colorPrimary}" Geometry="F1 M24,24z M0,0z M19,3L5,3C3.9,3,3,3.9,3,5L3,19C3,20.1,3.9,21,5,21L19,21C20.1,21,21,20.1,21,19L21,5C21,3.9,20.1,3,19,3z M19,19L5,19 5,5 19,5 19,19z M17.99,9L16.58,7.58 9.99,14.17 7.41,11.6 5.99,13.01 9.99,17z" />
-                    </DrawingGroup>
-                </DrawingImage.Drawing>
-            </DrawingImage>
-
-            <Style x:Key="CheckStyle" TargetType="{x:Type ct:CheckBoxButton}">
-                <Setter Property="IconHeight" Value="22"></Setter>
-                <Setter Property="IconWidth"  Value="22"></Setter>
-                <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}"></Setter>
-                <Setter Property="CheckForeground" Value="{DynamicResource colorPrimary}"></Setter>
-                <Setter Property="Icon" Value="{StaticResource UnCheck}"></Setter>
-                <Setter Property="HoverIcon" Value="{StaticResource UnCheck}"></Setter>
-                <Setter Property="CheckIcon" Value="{StaticResource Check}"></Setter>
-                <Setter Property="CheckHoverIcon" Value="{StaticResource Check}"></Setter>
-            </Style>
         </ResourceDictionary>
     </wnd:BaseWindow.Resources>
     <Grid>
@@ -82,144 +24,152 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Margin="15 5">
+        <StackPanel Margin="15 0 25 5">
             <Label Foreground="{DynamicResource textColorPrimary}" FontSize="14" FontWeight="Bold">基础设置：</Label>
-            <Grid>
+            <Grid Margin="0,0,0,5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">协议类型:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">标签:</Label>
+                <TextBox Grid.Column="1" MaxLines="1" Text="{Binding Tag}"></TextBox>
+            </Grid>
+            <Grid Margin="0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">协议类型:</Label>
                 <StackPanel VerticalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
-                    <ct:TextRadioButton GroupName="ProtocolRadio" Width="50" Height="25" Style="{StaticResource RadioStyle}" 
+                    <ct:TextRadioButton GroupName="ProtocolRadio" Width="50" Height="25" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}" 
                                         IsChecked="{Binding Protocol, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=vless}"
                                         Command="{Binding ProtocolCommand}" CommandParameter="vless">Vless</ct:TextRadioButton>
-                    <ct:TextRadioButton GroupName="ProtocolRadio" Width="50" Height="25" Style="{StaticResource RadioStyle}" 
+                    <ct:TextRadioButton GroupName="ProtocolRadio" Width="50" Height="25" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
                                         IsChecked="{Binding Protocol, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=trojan}"
                                         Command="{Binding ProtocolCommand}" CommandParameter="trojan">Trojan</ct:TextRadioButton>
                 </StackPanel>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">地址:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">地址:</Label>
                 <TextBox Grid.Column="1" MaxLines="1" Text="{Binding Address}"></TextBox>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">端口:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">端口:</Label>
                 <TextBox Grid.Column="1" MaxLines="1" Text="{Binding Port}"></TextBox>
             </Grid>
             <Grid Margin="0 5"
                   Visibility="{Binding Protocol, Converter={x:Static vt:CompareToVisibility.Instance}, ConverterParameter=vless}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">UUID:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">UUID:</Label>
                 <TextBox Grid.Column="1" MaxLines="1" Text="{Binding UUID}"></TextBox>
             </Grid>
             <Grid Margin="0 5"
                   Visibility="{Binding Protocol, Converter={x:Static vt:CompareToVisibility.Instance}, ConverterParameter=trojan}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">密码:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">密码:</Label>
                 <TextBox Grid.Column="1" MaxLines="1" Text="{Binding Password}"></TextBox>
             </Grid>
             <Label Foreground="{DynamicResource textColorPrimary}" FontSize="14" FontWeight="Bold">流设置:</Label>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">传输协议:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">传输协议:</Label>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <ct:TextRadioButton GroupName="NetworkRadio" Height="25" Width="40" Style="{StaticResource RadioStyle}" 
+                    <ct:TextRadioButton GroupName="NetworkRadio" Height="25" Width="40" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
                                         IsChecked="{Binding Network, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=tcp}"
                                         Command="{Binding NetworkCommand}" CommandParameter="tcp">tcp</ct:TextRadioButton>
-                    <ct:TextRadioButton GroupName="NetworkRadio" Height="25" Width="80" Style="{StaticResource RadioStyle}"
+                    <ct:TextRadioButton GroupName="NetworkRadio" Height="25" Width="80" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
                                         IsChecked="{Binding Network, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=ws}"
                                         Command="{Binding NetworkCommand}" CommandParameter="ws">websocket</ct:TextRadioButton>
                 </StackPanel>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">安全类型:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">安全类型:</Label>
                 <StackPanel VerticalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
-                    <ct:TextRadioButton GroupName="SecurityRadio" Height="25" Width="40" Style="{StaticResource RadioStyle}"
+                    <ct:TextRadioButton GroupName="SecurityRadio" Height="25" Width="40" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
                                         IsChecked="{Binding Security, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=tls}"
                                         Command="{Binding SecurityCommand}" CommandParameter="tls">tls</ct:TextRadioButton>
-                    <ct:TextRadioButton GroupName="SecurityRadio" Height="25" Width="40" Style="{StaticResource RadioStyle}"
+                    <ct:TextRadioButton GroupName="SecurityRadio" Height="25" Width="40" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
                                         IsChecked="{Binding Security, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=xtls}"
                                         Command="{Binding SecurityCommand}" CommandParameter="xtls">xtls</ct:TextRadioButton>
                 </StackPanel>
             </Grid>
             <Grid Margin="0 5" Visibility="{Binding Security, Converter={x:Static vt:CompareToVisibility.Instance},ConverterParameter=xtls}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">XTLS Direct:</Label>
-                <ct:CheckBoxButton Grid.Column="1" Height="25" Style="{StaticResource CheckStyle}"
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">XTLS Direct:</Label>
+                <ct:CheckBoxButton Grid.Column="1" Height="25" Style="{DynamicResource CheckStyle}"
                                    IsChecked="{Binding XTlsDirect}">开启</ct:CheckBoxButton>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">TLS服务器地址:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">TLS服务器地址：</Label>
                 <TextBox Grid.Column="1" MaxLines="1" Text="{Binding TlsServerAddress}"></TextBox>
             </Grid>
             <Grid Margin="0 5"
                   Visibility="{Binding Network, Converter={x:Static vt:CompareToVisibility.Instance}, ConverterParameter=ws}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">WebSocket Path:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">WebSocket Path:</Label>
                 <TextBox Grid.Column="1" MaxLines="1" Text="{Binding WsPath}"></TextBox>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">允许不安全:</Label>
-                <ct:CheckBoxButton Grid.Column="1" Height="25" Style="{StaticResource CheckStyle}"
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">允许不安全:</Label>
+                <ct:CheckBoxButton Grid.Column="1" Height="25" Style="{DynamicResource CheckStyle}"
                                    IsChecked="{Binding AllowInsecure}">允许</ct:CheckBoxButton>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">多路复用(Mux):</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">多路复用(Mux):</Label>
                 <ct:CheckBoxButton Height="25" Grid.Column="1"
-                                      Style="{StaticResource CheckStyle}" IsChecked="{Binding Mux}">开启</ct:CheckBoxButton>
+                                      Style="{DynamicResource CheckStyle}" IsChecked="{Binding Mux}">开启</ct:CheckBoxButton>
             </Grid>
             <Grid Margin="0 5 0 0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource SubTitle}">TCP快速打开:</Label>
-                <ct:CheckBoxButton Grid.Column="1" Height="25" Style="{StaticResource CheckStyle}" IsChecked="{Binding FastOpen}">开启</ct:CheckBoxButton>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">TCP快速打开:</Label>
+                <ct:CheckBoxButton Grid.Column="1" Height="25" Style="{DynamicResource CheckStyle}" IsChecked="{Binding FastOpen}">开启</ct:CheckBoxButton>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ct:TextButton Style="{StaticResource BtnStyle}">确定</ct:TextButton>
-            <ct:TextButton Style="{StaticResource BtnStyle}" Click="Cancel_OnClick">取消</ct:TextButton>
+            <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}">确定</ct:TextButton>
+            <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}" Click="Cancel_OnClick">取消</ct:TextButton>
         </StackPanel>
     </Grid>    
 </wnd:BaseWindow>

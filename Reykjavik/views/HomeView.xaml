@@ -8,12 +8,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
     <Grid>
-        <StackPanel>
-            <ct:TextButton Command="{Binding TestStartCommand}">启动Xray</ct:TextButton>
-            <ct:TextButton Command="{Binding TestStopCommand}">停止Xray</ct:TextButton>
-            <ct:TextButton Click="ButtonBase_OnClick" >添加连接</ct:TextButton>
-
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <ct:TextButton Width="50" Height="25" Style="{DynamicResource BtnStyle}" Click="ButtonBase_OnClick">连接</ct:TextButton>
+            <ct:TextButton Margin="20 0" Width="50" Height="25" Style="{DynamicResource BtnStyle}">断开</ct:TextButton>
         </StackPanel>
     </Grid>
     

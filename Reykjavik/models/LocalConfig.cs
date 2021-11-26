@@ -9,8 +9,13 @@ namespace Reykjavik.models
 {
     public class LocalConfig
     {
-        public string PacAddress { get; set; } = "127.0.0.1";
-        public int PacPort { get; set; } = 2334;
+
+        public int SocksPort { get; set; } = DefaultXRayConfig.SocksPort;
+        public int HttpPort { get; set; } = DefaultXRayConfig.HttpPort;
+        public int PacPort { get; set; } = DefaultXRayConfig.PacPort;
+        public string ProxyMode { get; set; } = DefaultXRayConfig.ProxyMode;
+
+        public bool AdBlock { get; set; } = DefaultXRayConfig.AdBlock;
 
         // 本地入站规则， "HTTP" | "Socks"| "Dokodemo-door"
         // socks 必备，作为整个代理程序的入口

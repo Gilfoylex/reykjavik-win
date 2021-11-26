@@ -1,4 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:ct="clr-namespace:UIBase.controls;assembly=UIBase"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="colorPrimary" Color="#FF696AFB"/>
     <SolidColorBrush x:Key="colorSecond" Color="#FF5050BB"/>
@@ -34,4 +35,65 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
+
+
+    <Style x:Key="BtnStyle" TargetType="{x:Type ct:TextButton}">
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="HoverForeground" Value="White"></Setter>
+        <Setter Property="PushForeground" Value="White"></Setter>
+        <Setter Property="Background" Value="{DynamicResource colorPrimary}"></Setter>
+        <Setter Property="HoverBackground" Value="{DynamicResource colorSecond}"></Setter>
+        <Setter Property="PushBackground" Value="{DynamicResource colorThird}"></Setter>
+        <Setter Property="DisableBackground" Value="Gray"/>
+        <Setter Property="DisableForeground" Value="{DynamicResource textColorPrimary}" />
+        <Setter Property="BorderRadius" Value="5"></Setter>
+    </Style>
+
+    <DrawingImage x:Key="UnCheck">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                <GeometryDrawing Brush="{DynamicResource textColorPrimary}" Geometry="F1 M24,24z M0,0z M19,5L19,19 5,19 5,5 19,5 M19,3L5,3C3.9,3,3,3.9,3,5L3,19C3,20.1,3.9,21,5,21L19,21C20.1,21,21,20.1,21,19L21,5C21,3.9,20.1,3,19,3z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="Check">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                <GeometryDrawing Brush="{DynamicResource colorPrimary}" Geometry="F1 M24,24z M0,0z M19,3L5,3C3.9,3,3,3.9,3,5L3,19C3,20.1,3.9,21,5,21L19,21C20.1,21,21,20.1,21,19L21,5C21,3.9,20.1,3,19,3z M19,19L5,19 5,5 19,5 19,19z M17.99,9L16.58,7.58 9.99,14.17 7.41,11.6 5.99,13.01 9.99,17z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <Style x:Key="RadioStyle" TargetType="{x:Type ct:TextRadioButton}">
+        <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}" />
+        <Setter Property="HoverForeground" Value="{DynamicResource textColorPrimary}"/>
+        <Setter Property="PushForeground" Value="White" />
+        <Setter Property="PushBackground" Value="{DynamicResource colorPrimary}" />
+        <Setter Property="HoverBackground" Value="Gray" />
+        <Setter Property="Background" Value="Gray"></Setter>
+        <Setter Property="BorderRadius" Value="5"></Setter>
+    </Style>
+
+    <Style x:Key="SubTitle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}" />
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <Style x:Key="CheckStyle" TargetType="{x:Type ct:CheckBoxButton}">
+        <Setter Property="IconHeight" Value="22"></Setter>
+        <Setter Property="IconWidth"  Value="22"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}"></Setter>
+        <Setter Property="CheckForeground" Value="{DynamicResource colorPrimary}"></Setter>
+        <Setter Property="Icon" Value="{StaticResource UnCheck}"></Setter>
+        <Setter Property="HoverIcon" Value="{StaticResource UnCheck}"></Setter>
+        <Setter Property="CheckIcon" Value="{StaticResource Check}"></Setter>
+        <Setter Property="CheckHoverIcon" Value="{StaticResource Check}"></Setter>
+    </Style>
+
+    <Style x:Key="OneLineInput" TargetType="{x:Type TextBox}">
+        <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}"></Setter>
+        <Setter Property="MaxLines" Value="1"></Setter>
+    </Style>
 </ResourceDictionary>

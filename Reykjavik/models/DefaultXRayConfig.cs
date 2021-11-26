@@ -66,11 +66,11 @@ namespace Reykjavik.models
         // Dokodemo-door 任意门，用于查询xray中的流量统计
         public static List<XRayConfigDefine.Inbound> InBoundConfigs { get; set; } = new()
         {
-            new Inbound
+            new Inbound()
             {
                 tag = "main_socks",
                 listen = "127.0.0.1",
-                port = 2335,
+                port = SocksPort,
                 protocol = "socks",
                 settings = new SocksIN()
                 {
@@ -81,7 +81,7 @@ namespace Reykjavik.models
             {
                 tag = "main_http",
                 listen = "127.0.0.1",
-                port = 2336,
+                port = HttpPort,
                 protocol = "http",
                 settings = new HttpIN()
             },
@@ -115,5 +115,14 @@ namespace Reykjavik.models
                 protocol = "blackhole"
             }
         };
+
+
+        public const bool AdBlock = true;
+
+        public const string ProxyMode = "pac";
+
+        public const int SocksPort = 2334;
+        public const int HttpPort = 2335;
+        public const int PacPort = 2336;
     }
 }

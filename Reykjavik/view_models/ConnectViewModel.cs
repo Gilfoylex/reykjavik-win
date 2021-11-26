@@ -13,6 +13,13 @@ namespace Reykjavik.view_models
     {
         #region 基础设置
 
+        private string _tag = "";
+        public string Tag
+        {
+            get => _tag;
+            set => SetProperty(ref _tag, value);
+        }
+
         private string _protocol = "vless"; // vless | trojan
 
         public string Protocol
