@@ -42,15 +42,15 @@
                 </Grid.ColumnDefinitions>
                 <Label Style="{DynamicResource SubTitle}">系统代理模式：</Label>
                 <StackPanel VerticalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
-                    <ct:TextRadioButton GroupName="ProxyRadio" Width="70" Height="25" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}" 
-                                        IsChecked="{Binding ProxyMode, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=none}"
-                                        Command="{Binding ProxyModeCommand}" CommandParameter="none">禁用代理</ct:TextRadioButton>
-                    <ct:TextRadioButton GroupName="ProxyRadio" Width="70" Height="25" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}" 
-                                        IsChecked="{Binding ProxyMode, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=pac}"
-                                        Command="{Binding ProxyModeCommand}" CommandParameter="pac">PAC模式</ct:TextRadioButton>
-                    <ct:TextRadioButton GroupName="ProxyRadio" Width="70" Height="25" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}" 
-                                        IsChecked="{Binding ProxyMode, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=global}"
-                                        Command="{Binding ProxyModeCommand}" CommandParameter="global">全局模式</ct:TextRadioButton>
+                    <ct:IconRadioButton Width="80" Height="25" Margin="0 0 10 0" Style="{DynamicResource IconRadioStyle}" 
+                                        IsChecked="{Binding ProxyMode, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=none, Mode=OneWay}"
+                                        Command="{Binding ProxyModeCommand}" CommandParameter="none">禁用代理</ct:IconRadioButton>
+                    <ct:IconRadioButton Width="80" Height="25" Margin="0 0 10 0" Style="{DynamicResource IconRadioStyle}" 
+                                        IsChecked="{Binding ProxyMode, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=pac, Mode=OneWay}"
+                                        Command="{Binding ProxyModeCommand}" CommandParameter="pac">PAC模式</ct:IconRadioButton>
+                    <ct:IconRadioButton Width="80" Height="25" Margin="0 0 10 0" Style="{DynamicResource IconRadioStyle}" 
+                                        IsChecked="{Binding ProxyMode, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=global, Mode=OneWay}"
+                                        Command="{Binding ProxyModeCommand}" CommandParameter="global">全局模式</ct:IconRadioButton>
                 </StackPanel>
             </Grid>
             <Grid Margin="0 5">

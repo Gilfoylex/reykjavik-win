@@ -17,6 +17,8 @@ namespace Reykjavik.models
 
         public bool AdBlock { get; set; } = DefaultXRayConfig.AdBlock;
 
+        public string SelectTag { get; set; } = "";
+
         // 本地入站规则， "HTTP" | "Socks"| "Dokodemo-door"
         // socks 必备，作为整个代理程序的入口
         // http用于全局代理
@@ -24,6 +26,6 @@ namespace Reykjavik.models
         public List<XRayConfigDefine.Inbound> LocalInBounds { get; set; } = DefaultXRayConfig.InBoundConfigs;
 
         //本地必要的一些出站规则
-        public List<Outbound> LocalOutBounds { get; set; } = DefaultXRayConfig.OutboundConfigs;
+        public List<Outbound> LocalOutBounds { get; set; } = new List<Outbound>();
     }
 }

@@ -11,7 +11,7 @@
                 mc:Ignorable="d"
                 ResizeMode="NoResize"
                 WindowStartupLocation="CenterOwner"
-                Title="ConnectWindow" Height="600" Width="300">
+                Title="ConnectWindow" Height="600" Width="310">
     <wnd:BaseWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,30 +28,30 @@
             <Label Foreground="{DynamicResource textColorPrimary}" FontSize="14" FontWeight="Bold">基础设置：</Label>
             <Grid Margin="0,0,0,5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">标签:</Label>
-                <TextBox Grid.Column="1" MaxLines="1" Text="{Binding Tag}"></TextBox>
+                <TextBox Grid.Column="1" MaxLines="1" Text="{Binding TagName}"></TextBox>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">协议类型:</Label>
                 <StackPanel VerticalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
-                    <ct:TextRadioButton GroupName="ProtocolRadio" Width="50" Height="25" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}" 
-                                        IsChecked="{Binding Protocol, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=vless}"
-                                        Command="{Binding ProtocolCommand}" CommandParameter="vless">Vless</ct:TextRadioButton>
-                    <ct:TextRadioButton GroupName="ProtocolRadio" Width="50" Height="25" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
-                                        IsChecked="{Binding Protocol, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=trojan}"
-                                        Command="{Binding ProtocolCommand}" CommandParameter="trojan">Trojan</ct:TextRadioButton>
+                    <ct:IconRadioButton Width="70" Height="25" Margin="0 0 8 0" Style="{DynamicResource IconRadioStyle}" 
+                                        IsChecked="{Binding Protocol, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=vless, Mode=OneWay}"
+                                        Command="{Binding ProtocolCommand}" CommandParameter="vless">vless</ct:IconRadioButton>
+                    <ct:IconRadioButton Width="70" Height="25" Style="{DynamicResource IconRadioStyle}"
+                                        IsChecked="{Binding Protocol, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=trojan, Mode=OneWay}"
+                                        Command="{Binding ProtocolCommand}" CommandParameter="trojan">trojan</ct:IconRadioButton>
                 </StackPanel>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">地址:</Label>
@@ -59,7 +59,7 @@
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">端口:</Label>
@@ -68,7 +68,7 @@
             <Grid Margin="0 5"
                   Visibility="{Binding Protocol, Converter={x:Static vt:CompareToVisibility.Instance}, ConverterParameter=vless}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">UUID:</Label>
@@ -77,7 +77,7 @@
             <Grid Margin="0 5"
                   Visibility="{Binding Protocol, Converter={x:Static vt:CompareToVisibility.Instance}, ConverterParameter=trojan}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">密码:</Label>
@@ -86,37 +86,37 @@
             <Label Foreground="{DynamicResource textColorPrimary}" FontSize="14" FontWeight="Bold">流设置:</Label>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">传输协议:</Label>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <ct:TextRadioButton GroupName="NetworkRadio" Height="25" Width="40" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
-                                        IsChecked="{Binding Network, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=tcp}"
-                                        Command="{Binding NetworkCommand}" CommandParameter="tcp">tcp</ct:TextRadioButton>
-                    <ct:TextRadioButton GroupName="NetworkRadio" Height="25" Width="80" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
-                                        IsChecked="{Binding Network, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=ws}"
-                                        Command="{Binding NetworkCommand}" CommandParameter="ws">websocket</ct:TextRadioButton>
+                    <ct:IconRadioButton Height="25" Width="50" Margin="0 0 10 0" Style="{DynamicResource IconRadioStyle}"
+                                        IsChecked="{Binding Network, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=tcp, Mode=OneWay}"
+                                        Command="{Binding NetworkCommand}" CommandParameter="tcp">tcp</ct:IconRadioButton>
+                    <ct:IconRadioButton Height="25" Width="90" Style="{DynamicResource IconRadioStyle}"
+                                        IsChecked="{Binding Network, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=ws, Mode=OneWay}"
+                                        Command="{Binding NetworkCommand}" CommandParameter="ws">websocket</ct:IconRadioButton>
                 </StackPanel>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">安全类型:</Label>
                 <StackPanel VerticalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
-                    <ct:TextRadioButton GroupName="SecurityRadio" Height="25" Width="40" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
-                                        IsChecked="{Binding Security, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=tls}"
-                                        Command="{Binding SecurityCommand}" CommandParameter="tls">tls</ct:TextRadioButton>
-                    <ct:TextRadioButton GroupName="SecurityRadio" Height="25" Width="40" Margin="0 0 10 0" Style="{DynamicResource RadioStyle}"
-                                        IsChecked="{Binding Security, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=xtls}"
-                                        Command="{Binding SecurityCommand}" CommandParameter="xtls">xtls</ct:TextRadioButton>
+                    <ct:IconRadioButton Height="25" Width="50" Margin="0 0 10 0" Style="{DynamicResource IconRadioStyle}"
+                                        IsChecked="{Binding Security, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=tls, Mode=OneWay}"
+                                        Command="{Binding SecurityCommand}" CommandParameter="tls">tls</ct:IconRadioButton>
+                    <ct:IconRadioButton Height="25" Width="50" Margin="0 0 10 0" Style="{DynamicResource IconRadioStyle}"
+                                        IsChecked="{Binding Security, Converter={x:Static vt:CompareToBool.Instance}, ConverterParameter=xtls, Mode=OneWay}"
+                                        Command="{Binding SecurityCommand}" CommandParameter="xtls">xtls</ct:IconRadioButton>
                 </StackPanel>
             </Grid>
             <Grid Margin="0 5" Visibility="{Binding Security, Converter={x:Static vt:CompareToVisibility.Instance},ConverterParameter=xtls}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">XTLS Direct:</Label>
@@ -125,7 +125,7 @@
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">TLS服务器地址：</Label>
@@ -134,15 +134,15 @@
             <Grid Margin="0 5"
                   Visibility="{Binding Network, Converter={x:Static vt:CompareToVisibility.Instance}, ConverterParameter=ws}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">WebSocket Path:</Label>
+                <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">WebSocket Path：</Label>
                 <TextBox Grid.Column="1" MaxLines="1" Text="{Binding WsPath}"></TextBox>
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">允许不安全:</Label>
@@ -151,7 +151,7 @@
             </Grid>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">多路复用(Mux):</Label>
@@ -160,7 +160,7 @@
             </Grid>
             <Grid Margin="0 5 0 0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Margin="10 0 0 0" Style="{DynamicResource SubTitle}">TCP快速打开:</Label>
@@ -168,7 +168,7 @@
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}">确定</ct:TextButton>
+            <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}" Click="Confirm_Click">确定</ct:TextButton>
             <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}" Click="Cancel_OnClick">取消</ct:TextButton>
         </StackPanel>
     </Grid>    

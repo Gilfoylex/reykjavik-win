@@ -20,6 +20,8 @@ namespace Reykjavik.views
     /// </summary>
     public partial class ConnectWindow : BaseWindow
     {
+        public Action? ConfirmAction { get; set; }
+
         public ConnectWindow()
         {
             InitializeComponent();
@@ -27,6 +29,12 @@ namespace Reykjavik.views
 
         private void Cancel_OnClick(object sender, RoutedEventArgs e)
         {
+            Close();
+        }
+
+        private void Confirm_Click(object sender, RoutedEventArgs e)
+        {
+            ConfirmAction?.Invoke();
             Close();
         }
     }

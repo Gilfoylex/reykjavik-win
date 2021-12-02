@@ -25,7 +25,6 @@ namespace Reykjavik.views
         {
             InitializeComponent();
             DataContext = MainViewModel.Instance;
-            var x = MainViewModel.Instance.GetXRayConfig();
         }
     }
 }

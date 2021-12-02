@@ -5,7 +5,6 @@ namespace XrayServer
     public class XRayProcessHelper
     {
         private readonly string _xrayPath;
-        private readonly string _configPath;
         private readonly Process _process = new();
         private bool _isRunning = false;
 
@@ -14,10 +13,9 @@ namespace XrayServer
         {
             var currentPath = Environment.CurrentDirectory;
             _xrayPath = Path.Join(currentPath, "xray_x64.exe");
-            _configPath = Path.Join(currentPath, "xray_config.json");
         }
 
-        public async void Start()
+        public async void Start(string configPath)
         {
             if (_isRunning) return;
 
@@ -30,7 +28,7 @@ namespace XrayServer
                     _process.StartInfo.UseShellExecute = false;
                     _process.StartInfo.FileName = _xrayPath;
                     _process.StartInfo.CreateNoWindow= true;
-                    _process.StartInfo.Arguments = $"run -config {_configPath}";
+                    _process.StartInfo.Arguments = $"run -config {configPath}";
                     _process.StartInfo.RedirectStandardOutput = true;
                     _process.Start();
 

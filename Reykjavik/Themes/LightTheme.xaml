@@ -75,6 +75,36 @@
         <Setter Property="BorderRadius" Value="5"></Setter>
     </Style>
 
+    <DrawingImage x:Key="RadioCheck">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                <GeometryDrawing Brush="{DynamicResource colorPrimary}" Geometry="F1 M24,24z M0,0z M12,2C6.48,2 2,6.48 2,12 2,17.52 6.48,22 12,22 17.52,22 22,17.52 22,12 22,6.48 17.52,2 12,2z M12,20C7.58,20 4,16.42 4,12 4,7.58 7.58,4 12,4 16.42,4 20,7.58 20,12 20,16.42 16.42,20 12,20z" />
+                <GeometryDrawing Brush="{DynamicResource colorPrimary}">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry RadiusX="5" RadiusY="5" Center="12,12" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="RadioUncheck">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                <GeometryDrawing Brush="{DynamicResource textColorPrimary}" Geometry="F1 M24,24z M0,0z M12,2C6.48,2 2,6.48 2,12 2,17.52 6.48,22 12,22 17.52,22 22,17.52 22,12 22,6.48 17.52,2 12,2z M12,20C7.58,20 4,16.42 4,12 4,7.58 7.58,4 12,4 16.42,4 20,7.58 20,12 20,16.42 16.42,20 12,20z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <Style x:Key="IconRadioStyle" TargetType="{x:Type ct:IconRadioButton}">
+        <Setter Property="FontSize" Value="12"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}"></Setter>
+        <Setter Property="SelectedIcon" Value="{DynamicResource RadioCheck}" />
+        <Setter Property="SelectedIconHover" Value="{DynamicResource RadioCheck}" />
+        <Setter Property="UnSelectedIcon" Value="{DynamicResource RadioUncheck}" />
+        <Setter Property="UnSelectedIconHover" Value="{DynamicResource RadioUncheck}" />
+    </Style>
+
     <Style x:Key="SubTitle" TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}" />
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -85,7 +115,7 @@
         <Setter Property="IconHeight" Value="22"></Setter>
         <Setter Property="IconWidth"  Value="22"></Setter>
         <Setter Property="Foreground" Value="{DynamicResource textColorPrimary}"></Setter>
-        <Setter Property="CheckForeground" Value="{DynamicResource colorPrimary}"></Setter>
+        <Setter Property="CheckForeground" Value="{DynamicResource textColorPrimary}"></Setter>
         <Setter Property="Icon" Value="{StaticResource UnCheck}"></Setter>
         <Setter Property="HoverIcon" Value="{StaticResource UnCheck}"></Setter>
         <Setter Property="CheckIcon" Value="{StaticResource Check}"></Setter>

@@ -13,11 +13,11 @@ namespace Reykjavik.view_models
     {
         #region 基础设置
 
-        private string _tag = "";
-        public string Tag
+        private string _tagName = "";
+        public string TagName
         {
-            get => _tag;
-            set => SetProperty(ref _tag, value);
+            get => _tagName;
+            set => SetProperty(ref _tagName, value);
         }
 
         private string _protocol = "vless"; // vless | trojan
@@ -175,5 +175,23 @@ namespace Reykjavik.view_models
 
             Security = security;
         });
+
+        public void CopySettings(ConnectViewModel other)
+        {
+            TagName = other.TagName;
+            Protocol = other.Protocol;
+            Address = other.Address;
+            Port = other.Port;
+            UUID = other.UUID;
+            Password = other.Password;
+            Mux = other.Mux;
+            FastOpen = other.FastOpen;
+            Network = other.Network;
+            Security = other.Security;
+            XTlsDirect = other.XTlsDirect;
+            TlsServerAddress = other.TlsServerAddress;
+            AllowInsecure = other.AllowInsecure;
+            WsPath = other.WsPath;
+        }
     }
 }

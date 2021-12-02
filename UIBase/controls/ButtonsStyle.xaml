@@ -76,6 +76,7 @@
         <Setter Property="PushForeground" Value="Black"/>
         <Setter Property="DisableForeground" Value="Gray"/>
         <Setter Property="TextBtnTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:TextButton}">
@@ -324,6 +325,58 @@
 
                                 <Setter TargetName="bt" Property="Foreground" 
                                         Value="{Binding CheckForeground,RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--IconRadioButton-->
+    <Style TargetType="{x:Type local:IconRadioButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:IconRadioButton}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Image x:Name="RadioImage" Source="{TemplateBinding UnSelectedIcon}"
+                               Width="{TemplateBinding IconWidth}" Height="{TemplateBinding IconHeight}" />
+                        <TextBlock x:Name="RadioLbl" VerticalAlignment="Center" Padding="5,0,0,0"
+                               Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}"
+                               Text="{TemplateBinding Content}" />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="false"/>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="RadioImage" Property="Source" 
+                                        Value="{Binding UnSelectedIconHover,RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="true"/>
+                                <Condition Property="IsMouseOver" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="RadioImage" Property="Source" 
+                                        Value="{Binding SelectedIcon,RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="true"/>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="RadioImage" Property="Source" 
+                                        Value="{Binding SelectedIconHover,RelativeSource={RelativeSource TemplatedParent}}"/>
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

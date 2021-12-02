@@ -68,30 +68,30 @@ namespace Reykjavik.models
         {
             new Inbound()
             {
-                tag = "main_socks",
+                tag = MainSocksTag,
                 listen = "127.0.0.1",
                 port = SocksPort,
                 protocol = "socks",
-                settings = new SocksIN()
+                settings = new InboundSettings()
                 {
                     udp = true
                 }
             },
             new Inbound
             {
-                tag = "main_http",
+                tag = MainHttpTag,
                 listen = "127.0.0.1",
                 port = HttpPort,
                 protocol = "http",
-                settings = new HttpIN()
+                settings = new InboundSettings()
             },
             new Inbound
             {
                 tag = "api",
                 listen = "127.0.0.1",
-                port = 2337,
+                port = 7332,
                 protocol = "dokodemo-door",
-                settings = new DokodemoDoor
+                settings = new InboundSettings()
                 {
                     address = "127.0.0.1"
                 }
@@ -121,6 +121,8 @@ namespace Reykjavik.models
 
         public const string ProxyMode = "pac";
 
+        public const string MainSocksTag = "main_socks";
+        public const string MainHttpTag = "main_http";
         public const int SocksPort = 2334;
         public const int HttpPort = 2335;
         public const int PacPort = 2336;

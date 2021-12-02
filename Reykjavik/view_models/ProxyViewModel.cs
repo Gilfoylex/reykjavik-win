@@ -76,8 +76,35 @@ namespace Reykjavik.view_models
             _localConfig.PacPort = PacPort;
             _localConfig.HttpPort = HttpPort;
             _localConfig.SocksPort = SocksPort;
+            UpdateHttpPort(HttpPort);
+            UpdateSocksPort(SocksPort);
             SaveLocalConfig();
         });
+
+        private void UpdateHttpPort(int port)
+        {
+            foreach (var item in _localConfig.LocalInBounds)
+            {
+                if (item.tag == DefaultXRayConfig.MainHttpTag)
+                {
+                    item.port = port;
+                    break;
+                }
+            }
+        }
+
+        private void UpdateSocksPort(int port)
+        {
+            foreach (var item in _localConfig.LocalInBounds)
+            {
+                if (item.tag == DefaultXRayConfig.MainSocksTag)
+                {
+                    item.port = port;
+                    break;
+                }
+            }
+        }
+
 
         private Command? _resetCommand;
         public Command ResetCommand => _resetCommand ??= new Command((param) =>

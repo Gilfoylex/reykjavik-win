@@ -97,7 +97,7 @@ namespace Reykjavik.models.XRayConfigDefine
     #region 传输协议
     public class TlsSettings
     {
-        public string? serverName { get; set; }
+        public string serverName { get; set; } = "";
         public bool? rejectUnknownSni { get; set; }
         public bool allowInsecure { get; set; } = false; //是否允许不安全连接（仅用于客户端）。默认值为 false。
         public List<string>? alpn { get; set; }
@@ -110,10 +110,6 @@ namespace Reykjavik.models.XRayConfigDefine
         public bool? disableSystemRoot { get; set; }
         public bool? enableSessionResumption { get; set; }
         public string? fingerprint { get; set; }
-    }
-
-    public class XtlsSettings : TlsSettings
-    {
     }
 
     public class TcpSettings
@@ -137,7 +133,7 @@ namespace Reykjavik.models.XRayConfigDefine
 
     public class WsSettings
     {
-        public bool acceptProxyProtocol { get; set; } = false;
+        //public bool acceptProxyProtocol { get; set; } = true; // 仅仅用于inbound中
         public string path { get; set; } = "";
         public Dictionary<string, string>? headers { get; set; }
     }
@@ -170,7 +166,7 @@ namespace Reykjavik.models.XRayConfigDefine
     public class Sockopt
     {
         public int? mark { get; set; }
-        public bool? tcpFastOpen { get; set; }
+        public bool tcpFastOpen { get; set; } = false;
         public string? tproxy { get; set; }
         public string? domainStrategy { get; set; }
         public string? dialerProxy { get; set; }
@@ -180,20 +176,20 @@ namespace Reykjavik.models.XRayConfigDefine
     public class StreamSettings
     {
         // network: "tcp" | "kcp" | "ws" | "http" | "domainsocket" | "quic" | "grpc"
-        public string network { get; set; }
+        public string network { get; set; } = "tcp";
 
         // security: "none" | "tls" | "xtls"
         public string security { get; set; } = "none";
-        public TlsSettings tlsSettings { get; set; }
-        public XtlsSettings xtlsSettings { get; set; }
-        public TcpSettings tcpSettings { get; set; }
-        public KcpSettings kcpSettings { get; set; }
-        public WsSettings wsSettings { get; set; }
-        public HttpSettings httpSettings { get; set; }
-        public QuicSettings quicSettings { get; set; }
-        public DsSettings dsSettings { get; set; }
-        public GrpcSettings grpcSettings { get; set; }
-        public Sockopt sockopt { get; set; }
+        public TlsSettings? tlsSettings { get; set; }
+        public TlsSettings? xtlsSettings { get; set; }
+        public TcpSettings? tcpSettings { get; set; }
+        public KcpSettings? kcpSettings { get; set; }
+        public WsSettings? wsSettings { get; set; }
+        public HttpSettings? httpSettings { get; set; }
+        public QuicSettings? quicSettings { get; set; }
+        public DsSettings? dsSettings { get; set; }
+        public GrpcSettings? grpcSettings { get; set; }
+        public Sockopt sockopt { get; set; } = new Sockopt();
     }
 
     public class Sniffing
@@ -213,15 +209,28 @@ namespace Reykjavik.models.XRayConfigDefine
     // 只列举了常用的几个。
     // 完整协议列表：https://xtls.github.io/config/inbounds/#%E5%8D%8F%E8%AE%AE%E5%88%97%E8%A1%A8
 
-    // Dokodemo-Door
-    public class DokodemoDoor
+    public class InboundSettings
     {
-        public string address { get; set; }
-        public int port { get; set; }
-        public string network { get; set; }
-        public int timeout { get; set; }
-        public bool followRedirect { get; set; }
-        public int userLevel { get; set; }
+        // Dokodemo-Door
+        public string? address { get; set; }
+        public int? port { get; set; }
+        public string? network { get; set; }
+        public int? timeout { get; set; }
+        public bool? followRedirect { get; set; }
+        public int? userLevel { get; set; }
+
+        // Http
+        //public int? timeout { get; set; }
+        public List<Account>? accounts { get; set; }
+        public bool? allowTransparent { get; set; }
+        //public int userLevel { get; set; }
+
+        // socks
+        public string? auth { get; set; }
+        //public List<Account>? accounts { get; set; }
+        public bool? udp { get; set; }
+        public string? ip { get; set; }
+        //public int userLevel { get; set; } = 0;
     }
 
     public class Account
@@ -230,84 +239,6 @@ namespace Reykjavik.models.XRayConfigDefine
         public string pass { get; set; }
     }
 
-    // HttpIN
-    public class HttpIN
-    {
-        public int? timeout { get; set; }
-        public List<Account>? accounts { get; set; }
-        public bool allowTransparent { get; set; } = false;
-        public int userLevel { get; set; } = 0;
-    }
-
-    // SocksIN
-    public class SocksIN
-    {
-        public string auth { get; set; }
-        public List<Account>? accounts { get; set; }
-        public bool udp { get; set; }
-        public string ip { get; set; }
-        public int userLevel { get; set; } = 0;
-    }
-
-    public class V2rayClient
-    {
-        public string id { get; set; }
-        public int level { get; set; }
-        public string email { get; set; }
-        public string flow { get; set; }
-    }
-
-    public class Fallback
-    {
-        public string name { get; set; }
-        public string alpn { get; set; }
-        public string path { get; set; }
-        public int dest { get; set; }
-        public int xver { get; set; }
-    }
-
-    //VlessIN
-    public class VlessIN
-    {
-        public List<V2rayClient> clients { get; set; }
-        public string decryption { get; set; }
-        public List<Fallback> fallbacks { get; set; }
-    }
-
-    public class Default
-    {
-        public int level { get; set; }
-        public int alterId { get; set; }
-    }
-
-    public class Detour
-    {
-        public string to { get; set; }
-    }
-
-    // VmessIN
-    public class VmessIN
-    {
-        public List<V2rayClient> clients { get; set; }
-        [JsonPropertyName("default")]
-        public Default default_1 { get; set; }
-        public Detour detour { get; set; }
-        public bool disableInsecureEncryption { get; set; }
-    }
-
-    public class TorjanClient
-    {
-        public string password { get; set; }
-        public int level { get; set; }
-        public string email { get; set; }
-        public string flow { get; set; }
-    }
-
-    public class TorjanIN
-    {
-        public List<TorjanClient> clients { get; set; }
-        public List<Fallback> fallbacks { get; set; }
-    }
     #endregion
 
     public class Inbound
@@ -315,7 +246,7 @@ namespace Reykjavik.models.XRayConfigDefine
         public string listen { get; set; }
         public int port { get; set; }
         public string protocol { get; set; } // "Dokodemo-door" | "HTTP" | "Socks" | "VLESS" | "VMess" | "Trojan"
-        public object settings { get; set; }
+        public InboundSettings settings { get; set; }
         public StreamSettings streamSettings { get; set; }
         public string tag { get; set; }
         public Sniffing sniffing { get; set; }
@@ -350,13 +281,6 @@ namespace Reykjavik.models.XRayConfigDefine
         public Response response { get; set; }
     }
 
-    public class DnsOut
-    {
-        public string network { get; set; }
-        public string address { get; set; }
-        public int port { get; set; }
-    }
-
     public class Freedom
     {
         public string domainStrategy { get; set; }
@@ -364,101 +288,62 @@ namespace Reykjavik.models.XRayConfigDefine
         public int userLevel { get; set; }
     }
 
-    public class ServerBase
+
+    public class TrojanServer
     {
         public string address { get; set; }
         public int port { get; set; }
-        
-    }
-
-    public class HttpServer : ServerBase
-    {
-        public List<Account> users { get; set; }
-    }
-
-    public class SockServer : ServerBase
-    {
-        public List<User> users { get; set; }
-    }
-
-    public class TrojanServer : ServerBase
-    {
         public string password { get; set; }
-        public string email { get; set; }
-        public string flow { get; set; }
+        public string? email { get; set; }
+        public string? flow { get; set; }
         public int level { get; set; }
-    }
-
-    public class HttpOut
-    {
-        public List<HttpServer> servers { get; set; }
-    }
-
-    public class SocksOut
-    {
-        public List<SockServer> servers { get; set; }
     }
 
 
     public class VLessUser
     {
         public string id { get; set; }
-        public string encryption { get; set; }
-        public string flow { get; set; }
-        public int level { get; set; }
-        public string email { get; set; }
-    }
-
-    public class VMessUser
-    {
-        public string id { get; set; }
-        public int alterId { get; set; }
-        public string security { get; set; }
-        public int level { get; set; }
-        public string email { get; set; }
+        public string encryption { get; set; } = "none";
+        public string? flow { get; set; }
+        public int level { get; set; } = 0;
     }
 
     public class VnextVless
     {
         public string address { get; set; }
         public int port { get; set; }
-        public List<VLessUser> users { get; set; }
+        public List<VLessUser> users { get; set; } = new List<VLessUser>();
     }
 
-    public class VnextVmess
+    public class OutboundSettings
     {
-        public string address { get; set; }
-        public int port { get; set; }
-        public List<VMessUser> users { get; set; }
-    }
+        // blackhold
+        public Response? response { get; set; }
 
-    public class VLessOut
-    {
-        public List<VnextVless> vnext { get; set; }
-    }
+        // freedom
+        public string? domainStrategy { get; set; }
+        public string? redirect { get; set; }
+        public int? userLevel { get; set; }
 
-    public class VMessOut
-    {
-        public List<VnextVmess> vnext { get; set; }
-    }
+        // vless
+        public List<VnextVless>? vnext { get; set; }
 
-    public class TrojanOut
-    {
-        public List<TrojanServer> servers { get; set; }
-    }
+        // trojan
+        public List<TrojanServer>? servers { get; set; }
 
+    }
 
     #endregion
 
     public class Outbound
     {
-        public string sendThrough { get; set; }
-        public string protocol { get; set; }
-        public object settings { get; set; }
-        public string tag { get; set; }
-        public StreamSettings streamSettings { get; set; }
-        public ProxySettings proxySettings { get; set; }
-        public Mux mux { get; set; }
+        public string? sendThrough { get; set; }
+        public string protocol { get; set; } = "";
+        public OutboundSettings? settings { get; set; }
+        public string tag { get; set; } = "";
+        public StreamSettings? streamSettings { get; set; }
+        public ProxySettings? proxySettings { get; set; }
+        public Mux mux { get; set; } = new Mux();
     }
 
     public class XRayConfig
