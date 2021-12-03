@@ -6,7 +6,7 @@
     <SolidColorBrush x:Key="colorThird" Color="#FF37387D"/>
     <SolidColorBrush x:Key="textColorPrimary" Color="#FF212121"/>
     <SolidColorBrush x:Key="whiteOpacity60" Color="#99FFFFFF"/>
-    <SolidColorBrush x:Key="tipColor" Color="#FF4F747F"/>
+    <SolidColorBrush x:Key="tipColor" Color="#FFFFEE58"/>
 
     <DrawingImage x:Key="IconDrawingImage">
         <DrawingImage.Drawing>

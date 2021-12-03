@@ -126,5 +126,7 @@ namespace Reykjavik.models
         public const int SocksPort = 2334;
         public const int HttpPort = 2335;
         public const int PacPort = 2336;
+
+        public const string PacProxyFileName = "proxy.pac";
     }
 }

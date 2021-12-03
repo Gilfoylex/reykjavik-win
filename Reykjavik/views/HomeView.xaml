@@ -20,6 +20,14 @@
                     </DrawingGroup>
                 </DrawingImage.Drawing>
             </DrawingImage>
+
+            <DrawingImage x:Key="ShareIcon">
+                <DrawingImage.Drawing>
+                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                        <GeometryDrawing Brush="White" Geometry="F1 M24,24z M0,0z M18,16.08C17.24,16.08,16.56,16.38,16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12 9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8 19.66,8 21,6.66 21,5 21,3.34 19.66,2 18,2 16.34,2 15,3.34 15,5 15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9 4.34,9 3,10.34 3,12 3,13.66 4.34,15 6,15 6.79,15 7.5,14.69 8.04,14.19L15.16,18.35C15.11,18.56 15.08,18.78 15.08,19 15.08,20.61 16.39,21.92 18,21.92 19.61,21.92 20.92,20.61 20.92,19 20.92,17.39 19.61,16.08 18,16.08z M18,4C18.55,4 19,4.45 19,5 19,5.55 18.55,6 18,6 17.45,6 17,5.55 17,5 17,4.45 17.45,4 18,4z M6,13C5.45,13 5,12.55 5,12 5,11.45 5.45,11 6,11 6.55,11 7,11.45 7,12 7,12.55 6.55,13 6,13z M18,20.02C17.45,20.02 17,19.57 17,19.02 17,18.47 17.45,18.02 18,18.02 18.55,18.02 19,18.47 19,19.02 19,19.57 18.55,20.02 18,20.02z" />
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -38,7 +46,7 @@
             </ct:TextButton>
             <ct:TextButton Margin="20 0" Width="50" Height="25" Style="{DynamicResource BtnStyle}" Command="{Binding DisConnectCommand}">断开</ct:TextButton>
             <ct:TextButton Margin="20 0" Width="100" Height="25" Style="{DynamicResource BtnStyle}" Command="{Binding AddCommand}">手动添加</ct:TextButton>
-            <ct:TextButton Margin="0 0" Width="50" Height="25" Style="{DynamicResource BtnStyle}">导入</ct:TextButton>
+            <ct:TextButton Margin="0 0" Width="50" Height="25" Style="{DynamicResource BtnStyle}" Click="Import_Click">导入</ct:TextButton>
             <Label Margin="30 0" Content="{Binding Path=ConnectTag}" ContentStringFormat="当前连接：{0}" FontSize="14"  VerticalAlignment="Center" Foreground="{DynamicResource textColorPrimary}"></Label>
         </StackPanel>
         <Border Grid.Row="1" Background="White" CornerRadius="10" Opacity="0.8"></Border>
@@ -51,7 +59,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <RadioButton GroupName="ConnectGroup" Height="150" Width="150" 
+                        <RadioButton GroupName="ConnectGroup" Height="180" Width="180" 
                                      Command="{Binding Path=DataContext.SelectCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type UserControl}}}"
                                      CommandParameter="{Binding TagName}">
                             <RadioButton.IsChecked>
@@ -86,9 +94,9 @@
                                                             </Border>
                                                             <Label Content="{Binding TagName}" FontSize="16" FontWeight="Bold" Foreground="White"></Label>
                                                         </StackPanel>
-                                                        <Label Grid.Row="1" Content="{Binding Address}" Foreground="White"></Label>
+                                                        <Label Grid.Row="1" Content="{Binding Protocol}" Foreground="White"></Label>
                                                         <Image Grid.Row="1" x:Name="SelectImage" Height="24" Width="24" HorizontalAlignment="Right" VerticalAlignment="Top" Source="{StaticResource Selected}"></Image>
-                                                        <Label Grid.Row="2" Content="{Binding Protocol}" Foreground="White"></Label>
+                                                        <Label Grid.Row="2" Content="{Binding Address}" Foreground="White"></Label>
                                                         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
                                                             <ct:TextButton Height="25" Width="50" Style="{DynamicResource BtnStyle}"
                                                                            Command="{Binding Path=DataContext.EditCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type UserControl}}}"
@@ -104,6 +112,9 @@
                                                                     </MultiBinding>
                                                                 </ct:TextButton.IsEnabled>
                                                             </ct:TextButton>
+                                                            <ct:IconButton Icon="{StaticResource ShareIcon}" Height="18" Width="18" Margin="10 0 0 0" HoverIcon="{StaticResource ShareIcon}" PushIcon="{StaticResource ShareIcon}"
+                                                                           Command="{Binding Path=DataContext.ShareCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type UserControl}}}"
+                                                                           CommandParameter="{Binding .}"></ct:IconButton>
                                                         </StackPanel>
                                                     </Grid>
                                                 </Grid>
@@ -127,6 +138,28 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        <Popup x:Name="importPopup" StaysOpen="False" IsOpen="False" Width="400" Height="500" Placement="Center" AllowsTransparency="True">
+            <Grid>
+                <Border Background="White" Opacity="1" CornerRadius="10"></Border>
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource SubTitle}">导入vless或trojan 协议的连接配置</Label>
+                    <TextBox Margin="0 10" Grid.Row="1" FontSize="12" Foreground="{DynamicResource textColorPrimary}" x:Name="ImportTextBox">
+
+                    </TextBox>
+                    <Label Grid.Row="2" Foreground="{DynamicResource textColorPrimary}" x:Name="TipLabel" Visibility="Hidden"></Label>
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}" Click="Cancel_Click">取消</ct:TextButton>
+                        <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}" Click="Confirm_Click">确定</ct:TextButton>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Popup>
     </Grid>
     
 </UserControl>

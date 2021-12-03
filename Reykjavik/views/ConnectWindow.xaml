@@ -168,8 +168,8 @@
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}" Click="Confirm_Click">确定</ct:TextButton>
             <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}" Click="Cancel_OnClick">取消</ct:TextButton>
+            <ct:TextButton Width="50" Height="25" Margin="20 0" Style="{DynamicResource BtnStyle}" Click="Confirm_Click">确定</ct:TextButton>
         </StackPanel>
     </Grid>    
 </wnd:BaseWindow>

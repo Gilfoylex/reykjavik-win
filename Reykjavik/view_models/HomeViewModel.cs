@@ -103,11 +103,21 @@ namespace Reykjavik.view_models
             wnd.DataContext = vm;
             wnd.ConfirmAction = () =>
             {
-                ConnectViewModelList.Add(vm);
-                UpdateLocalOutBounds();
+                AddNewConnect(vm); 
             };
             wnd.Show();
         });
+
+        public void AddNewConnect(ConnectViewModel connectVm)
+        {
+            if (TagExist(connectVm.TagName))
+            {
+                connectVm.TagName += "1";
+            }
+
+            ConnectViewModelList.Add(connectVm);
+            UpdateLocalOutBounds();
+        }
 
         private Command? _delCommand;
         public Command DelCommand => _delCommand ??= new Command((param) =>
@@ -170,17 +180,22 @@ namespace Reykjavik.view_models
             var connects = new List<ConnectViewModel>();
             foreach(var item in _localConfig.LocalOutBounds)
             {
-                connects.Add(OutBoundToConnectVm(item));
+                var errorMsg = "";
+                connects.Add(OutBoundToConnectVm(item, ref errorMsg));
             }
 
             ConnectViewModelList.ReplaceRange(connects);
         }
 
-        private ConnectViewModel OutBoundToConnectVm(models.XRayConfigDefine.Outbound ot)
+        public ConnectViewModel OutBoundToConnectVm(models.XRayConfigDefine.Outbound ot, ref string errorMsg)
         {
             var ret = new ConnectViewModel();
             ret.TagName = ot.tag;
-            ret.Mux = ot.mux.enabled;
+            if (ot.mux != null)
+            {
+                ret.Mux = ot.mux.enabled;
+            }
+            
             if (string.Compare(ot.protocol, "vless", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 ret.Protocol = ot.protocol;
@@ -213,6 +228,11 @@ namespace Reykjavik.view_models
                         break;
                     }
                 }
+            }
+            else
+            {
+                errorMsg = "包含不支持的协议类型，无法导入！";
+                return ret;
             }
 
 
@@ -270,7 +290,11 @@ namespace Reykjavik.view_models
             if (vm != null)
             {
                 ret.tag = vm.TagName;
-                ret.mux.enabled = vm.Mux; 
+                ret.mux = new models.XRayConfigDefine.Mux
+                {
+                    enabled = vm.Mux
+                };
+
                 if (string.Compare(vm.Protocol, "vless", StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     ret.protocol = "vless";
@@ -410,5 +434,27 @@ namespace Reykjavik.view_models
 
             return null;
         }
+
+        private Command? _shareCommand;
+        public Command ShareCommand => _shareCommand ??= new Command((param) =>
+        {
+            if (param is not ConnectViewModel vm)
+                return;
+
+            var wnd = new ShareWindow();
+            wnd.Owner = Application.Current.MainWindow;
+            var outBound = ConnectVmToOutBound(vm);
+            var jsonStr = "";
+            try
+            {
+                jsonStr = JsonSerializer.Serialize(outBound, new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            wnd.SetShareContent(jsonStr);
+            wnd.Show();
+        });
     }
 }

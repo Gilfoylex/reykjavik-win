@@ -343,7 +343,7 @@ namespace Reykjavik.models.XRayConfigDefine
         public string tag { get; set; } = "";
         public StreamSettings? streamSettings { get; set; }
         public ProxySettings? proxySettings { get; set; }
-        public Mux mux { get; set; } = new Mux();
+        public Mux? mux { get; set; }
     }
 
     public class XRayConfig

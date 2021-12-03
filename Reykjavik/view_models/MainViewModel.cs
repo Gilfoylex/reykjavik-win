@@ -53,6 +53,7 @@ namespace Reykjavik.view_models
             await InitLocalConfigAsync();
             InitHomeSetting();
             InitProxySetting();
+            ReadPacContent();
         }
 
         private object localConfigLock = new object();
@@ -85,6 +86,60 @@ namespace Reykjavik.view_models
                         Console.WriteLine(e);
                         throw;
                     }
+                }
+            });
+        }
+
+        private string _pacContent = "";
+        public string PacContent 
+        { 
+            get
+            {
+                lock(_pacContent)
+                {
+                    var length = _pacContent.Length;
+                    if (length > 500)
+                    {
+                        var header = _pacContent[..500];
+                        header = header.Replace("__PROXY__", @$"""PROXY 127.0.0.1:{HttpPort};""");
+                        var body = _pacContent.Substring(500, length - 500);
+                        return header + body;
+                    }
+                    else
+                    {
+                        return _pacContent;
+                    }
+                }
+            }
+            set
+            {
+                lock(_pacContent)
+                {
+                    _pacContent = value;
+                }
+            }
+        }
+
+        private void ReadPacContent()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    var currentPath = Environment.CurrentDirectory;
+                    var pacPath = Path.Combine(currentPath, DefaultXRayConfig.PacProxyFileName);
+                    var strContent = "";
+                    if (File.Exists(pacPath))
+                    {
+                        using var rs = new StreamReader(pacPath);
+                        strContent = rs.ReadToEnd();
+                    }
+
+                    PacContent = strContent;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
                 }
             });
         }

@@ -133,7 +133,7 @@ namespace Reykjavik.view_models
 
             if (string.Compare(ProxyMode, "pac", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                // TODO
+                utils.SystemProxy.SetSystemProxy(2, $"http://127.0.0.1:{PacPort}/{DefaultXRayConfig.PacProxyFileName}");
                 ProxySetted = true;
             }
             else if (string.Compare(ProxyMode, "global", StringComparison.OrdinalIgnoreCase) == 0)

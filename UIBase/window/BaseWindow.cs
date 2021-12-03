@@ -112,7 +112,7 @@ namespace UIBase.window
 
         protected virtual void OnCloseBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
 
         private void MaximizeBtn_Click(object sender, RoutedEventArgs e)
