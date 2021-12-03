@@ -25,7 +25,7 @@ namespace UIBase.window
             StateChanged += BaseWindow_StateChanged;
         }
 
-        private void BaseWindow_StateChanged(object sender, EventArgs e)
+        private void BaseWindow_StateChanged(object? sender, EventArgs e)
         {
             UpdateMaxBtn();
         }
@@ -57,6 +57,14 @@ namespace UIBase.window
             MaximizeBtn.Click += MaximizeBtn_Click;
             CloseBtn.Click += CloseBtn_Click;
             base.OnApplyTemplate();
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            var handle = new WindowInteropHelper(this).Handle;
+            var source = HwndSource.FromHwnd(handle);
+            source.AddHook(new HwndSourceHook(WpfHandleWindowMsg));
         }
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -99,7 +107,12 @@ namespace UIBase.window
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            OnCloseBtn_Click(sender, e);
+        }
+
+        protected virtual void OnCloseBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void MaximizeBtn_Click(object sender, RoutedEventArgs e)
@@ -124,9 +137,6 @@ namespace UIBase.window
 
         private void BaseWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var handle = new WindowInteropHelper(this).Handle;
-            var source = HwndSource.FromHwnd(handle);
-            source.AddHook(new HwndSourceHook(WpfHandleWindowMsg));
             UpdateMaxBtn();
             UpdateMinMaxRestoreBtnsStatus(this.ResizeMode);
         }
@@ -145,8 +155,22 @@ namespace UIBase.window
             }
         }
 
+        // 自定义消息处理
+        protected virtual IntPtr OnWindowsMeessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled, ref bool customHandled)
+        {
+            return IntPtr.Zero;
+        }
+
         private IntPtr WpfHandleWindowMsg(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
+            var customHandled = false;
+            var ret = OnWindowsMeessage((IntPtr)hwnd, msg, wParam, lParam, ref handled, ref customHandled);
+            if (customHandled)
+            {
+                return ret;
+            }
+
+
             if (msg == Win32ApiDefine.WM_NCHITTEST)
             {
                 var dpi = UIBase.window.DPIHelper.GetDpiFromVisual(this);
