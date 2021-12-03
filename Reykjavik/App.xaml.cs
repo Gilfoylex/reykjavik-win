@@ -25,10 +25,10 @@ namespace firework
         {
             if (_mutex.WaitOne(TimeSpan.Zero, true))
             {
+                base.OnStartup(e);
                 var window = new MainWindow();
                 Application.Current.MainWindow = window;
                 window.Show();
-                base.OnStartup(e);
             }
             else
             {

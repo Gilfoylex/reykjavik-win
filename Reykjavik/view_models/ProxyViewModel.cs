@@ -79,6 +79,11 @@ namespace Reykjavik.view_models
             UpdateHttpPort(HttpPort);
             UpdateSocksPort(SocksPort);
             SaveLocalConfig();
+
+            if (_isConncect)
+            {
+                ReConnect();
+            }
         });
 
         private void UpdateHttpPort(int port)
@@ -115,5 +120,32 @@ namespace Reykjavik.view_models
             ProxyMode = DefaultXRayConfig.ProxyMode;
             AdBlock = DefaultXRayConfig.AdBlock;
         });
+
+        public bool ProxySetted { get; private set; } = false;
+        public void ChangeProxy(bool start)
+        {
+            if (!start)
+            {
+                utils.SystemProxy.SetSystemProxy(0, "");
+                ProxySetted = false;
+                return;
+            }
+
+            if (string.Compare(ProxyMode, "pac", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // TODO
+                ProxySetted = true;
+            }
+            else if (string.Compare(ProxyMode, "global", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                utils.SystemProxy.SetSystemProxy(1, $"127.0.0.1:{HttpPort}");
+                ProxySetted = true;
+            }
+            else
+            {
+                utils.SystemProxy.SetSystemProxy(0, "");
+                ProxySetted = false;
+            }
+        }
     }
 }

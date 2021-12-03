@@ -29,6 +29,11 @@ namespace firework
 
         private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (MainViewModel.Instance.ProxySetted)
+                MainViewModel.Instance.ChangeProxy(false); // 程序退出的时候关闭代理
+
+            MainViewModel.Instance.StopXRay();
+
             m_notifyIcon?.Dispose();
         }
 

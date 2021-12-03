@@ -18,32 +18,50 @@ namespace Reykjavik.view_models
 
         private void StartXRay()
         {
-            _xRayProcessHelper.OutputLineAction += AddLogLine;
             var path = GenXrayConfig();
             _xRayProcessHelper.Start(path);
         }
 
-        private void StopXRay()
+        public void StopXRay()
         {
-            _xRayProcessHelper.OutputLineAction -= AddLogLine;
             _xRayProcessHelper.Stop();
         }
 
         private Command? _connectCommand;
 
+        private bool _isConncect = false;
+
         public Command ConnectCommand => _connectCommand ??= new Command((param) =>
         {
+            _pacHttpServer.Start(PacPort);
             StartXRay();
+            ChangeProxy(true);
             ConnectTag = SelectedTag;
+            _isConncect = true;
         });
 
         private Command? _disConnectCommand;
 
         public Command DisConnectCommand => _disConnectCommand ??= new Command((param) =>
         {
+            ChangeProxy(false);
+            _pacHttpServer.Stop();
             StopXRay();
             ConnectTag = "";
+            _isConncect = false;
         });
+
+        // 配置修改后重启xray，重新设置连接和代理
+        private void  ReConnect()
+        {
+            ChangeProxy(false);
+            StopXRay();
+            _pacHttpServer.Stop();
+
+            StartXRay();
+            _pacHttpServer.Start(PacPort);
+            ChangeProxy(true);
+        }
 
         private ObservableRangeCollection<ConnectViewModel> _connectViewModelList = new();
         public ObservableRangeCollection<ConnectViewModel> ConnectViewModelList
@@ -135,6 +153,7 @@ namespace Reykjavik.view_models
 
         private void InitHomeSetting()
         {
+            _xRayProcessHelper.OutputLineAction = AddLogLine;
             SelectedTag = _localConfig.SelectTag;
             GetLocalConnects();
         }
@@ -154,7 +173,7 @@ namespace Reykjavik.view_models
                 connects.Add(OutBoundToConnectVm(item));
             }
 
-            ConnectViewModelList.AddRange(connects);
+            ConnectViewModelList.ReplaceRange(connects);
         }
 
         private ConnectViewModel OutBoundToConnectVm(models.XRayConfigDefine.Outbound ot)
@@ -379,7 +398,7 @@ namespace Reykjavik.view_models
             }
         }
 
-        private ConnectViewModel GetSelectConnectVm()
+        private ConnectViewModel? GetSelectConnectVm()
         {
             foreach(var vm in ConnectViewModelList)
             {

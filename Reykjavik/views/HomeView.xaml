@@ -13,6 +13,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/UIBase;Component/Themes/ScrollViewerStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <DrawingImage x:Key="Selected">
+                <DrawingImage.Drawing>
+                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                        <GeometryDrawing Brush="{DynamicResource tipColor}" Geometry="F1 M24,24z M0,0z M19,1L5,1C3.9,1,3.01,1.9,3.01,3L3,15.93C3,16.62,3.35,17.23,3.88,17.59L12,23 20.11,17.59C20.64,17.23,20.99,16.62,20.99,15.93L21,3C21,1.9,20.1,1,19,1z M12,20.6L5,15.94 5,3 19,3 19,15.93 12,20.6z M9.99,13.18L7.41,10.59 6,12 10,16 18,8 16.58,6.58z" />
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -21,10 +28,18 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <ct:TextButton Width="50" Height="25" Style="{DynamicResource BtnStyle}" Command="{Binding ConnectCommand}">连接</ct:TextButton>
+            <ct:TextButton Width="50" Height="25" Style="{DynamicResource BtnStyle}" Command="{Binding ConnectCommand}" Content="连接">
+                <ct:TextButton.IsEnabled>
+                    <MultiBinding Converter="{x:Static vt:MulCompareToBool.Instance}" Mode="OneWay" ConverterParameter="-">
+                        <Binding Path="SelectedTag" />
+                        <Binding Path="ConnectTag" />
+                    </MultiBinding>
+                </ct:TextButton.IsEnabled>
+            </ct:TextButton>
             <ct:TextButton Margin="20 0" Width="50" Height="25" Style="{DynamicResource BtnStyle}" Command="{Binding DisConnectCommand}">断开</ct:TextButton>
             <ct:TextButton Margin="20 0" Width="100" Height="25" Style="{DynamicResource BtnStyle}" Command="{Binding AddCommand}">手动添加</ct:TextButton>
             <ct:TextButton Margin="0 0" Width="50" Height="25" Style="{DynamicResource BtnStyle}">导入</ct:TextButton>
+            <Label Margin="30 0" Content="{Binding Path=ConnectTag}" ContentStringFormat="当前连接：{0}" FontSize="14"  VerticalAlignment="Center" Foreground="{DynamicResource textColorPrimary}"></Label>
         </StackPanel>
         <Border Grid.Row="1" Background="White" CornerRadius="10" Opacity="0.8"></Border>
         <ScrollViewer Style="{DynamicResource ForScrollviewer}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Row="1" Background="Transparent">
@@ -61,7 +76,7 @@
                                                             <RowDefinition Height="1*"></RowDefinition>
                                                         </Grid.RowDefinitions>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <Border Background="#FFEE58" Height="10" Width="10" CornerRadius="5">
+                                                            <Border Background="{DynamicResource tipColor}" Height="12" Width="12" CornerRadius="6">
                                                                 <Border.Visibility>
                                                                     <MultiBinding Converter="{x:Static vt:MulCompareToVisibility.Instance}" Mode="OneWay">
                                                                         <Binding Path="TagName" />
@@ -69,10 +84,11 @@
                                                                     </MultiBinding>
                                                                 </Border.Visibility>
                                                             </Border>
-                                                            <Label Content="{Binding TagName}" Style="{DynamicResource SubTitle}"></Label>
+                                                            <Label Content="{Binding TagName}" FontSize="16" FontWeight="Bold" Foreground="White"></Label>
                                                         </StackPanel>
-                                                        <Label Grid.Row="1" Content="{Binding Address}" Style="{DynamicResource SubTitle}"></Label>
-                                                        <Label Grid.Row="2" Content="{Binding Protocol}" Style="{DynamicResource SubTitle}"></Label>
+                                                        <Label Grid.Row="1" Content="{Binding Address}" Foreground="White"></Label>
+                                                        <Image Grid.Row="1" x:Name="SelectImage" Height="24" Width="24" HorizontalAlignment="Right" VerticalAlignment="Top" Source="{StaticResource Selected}"></Image>
+                                                        <Label Grid.Row="2" Content="{Binding Protocol}" Foreground="White"></Label>
                                                         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
                                                             <ct:TextButton Height="25" Width="50" Style="{DynamicResource BtnStyle}"
                                                                            Command="{Binding Path=DataContext.EditCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type UserControl}}}"
@@ -80,17 +96,25 @@
                                                                            >编辑</ct:TextButton>
                                                             <ct:TextButton Margin="10 0 0 0" Height="25" Width="50" Style="{DynamicResource BtnStyle}"
                                                                            Command="{Binding Path=DataContext.DelCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type UserControl}}}"
-                                                                           CommandParameter="{Binding .}"
-                                                                           >删除</ct:TextButton>
+                                                                           CommandParameter="{Binding .}" Content="删除" >
+                                                                <ct:TextButton.IsEnabled>
+                                                                    <MultiBinding Converter="{x:Static vt:MulCompareToBool.Instance}" Mode="OneWay" ConverterParameter="-">
+                                                                        <Binding Path="TagName" />
+                                                                        <Binding Path="DataContext.ConnectTag" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" />
+                                                                    </MultiBinding>
+                                                                </ct:TextButton.IsEnabled>
+                                                            </ct:TextButton>
                                                         </StackPanel>
                                                     </Grid>
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsChecked" Value="False">
                                                         <Setter TargetName="bgBorder" Property="Margin" Value="10"></Setter>
+                                                        <Setter TargetName="SelectImage" Property="Visibility" Value="Collapsed"></Setter>
                                                     </Trigger>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter TargetName="bgBorder" Property="Margin" Value="5"></Setter>
+                                                        <Setter TargetName="SelectImage" Property="Visibility" Value="Visible"></Setter>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>

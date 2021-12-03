@@ -46,6 +46,8 @@ namespace Reykjavik.view_models
             CurrentTab = tabName;
         });
 
+        private utils.PacHttpServer _pacHttpServer = new ();
+
         private async void Init()
         {
             await InitLocalConfigAsync();
