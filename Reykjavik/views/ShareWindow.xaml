@@ -20,7 +20,7 @@
         </ResourceDictionary>
     </wnd:BaseWindow.Resources>
     <StackPanel>
-        <TextBox Height="300" Margin="10" x:Name="ShareText"  FontSize="12" Foreground="{DynamicResource textColorPrimary}" ></TextBox>
+        <TextBox Height="300" Margin="10" x:Name="ShareText" AcceptsReturn="True" FontSize="12" Foreground="{DynamicResource textColorPrimary}" ></TextBox>
         <ct:TextButton Margin="5" Width="100" Height="30" Style="{DynamicResource BtnStyle}" Click="TextButton_Click">复制到剪贴板</ct:TextButton>
         <Label Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="35" FontSize="14" Foreground="{DynamicResource textColorPrimary}"  x:Name="TipLabel"></Label>
     </StackPanel>

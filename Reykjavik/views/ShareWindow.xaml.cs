@@ -31,7 +31,7 @@ namespace Reykjavik.views
 
         private void TextButton_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetData(DataFormats.Text, ShareText.Text);
+            Clipboard.SetData(DataFormats.UnicodeText, ShareText.Text);
             TipLabel.Content = "成功复制到剪贴板";
         }
     }
