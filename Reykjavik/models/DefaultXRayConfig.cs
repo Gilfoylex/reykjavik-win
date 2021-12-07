@@ -89,7 +89,7 @@ namespace Reykjavik.models
             {
                 tag = "api",
                 listen = "127.0.0.1",
-                port = 7332,
+                port = ApiPort,
                 protocol = "dokodemo-door",
                 settings = new InboundSettings()
                 {
@@ -126,6 +126,7 @@ namespace Reykjavik.models
         public const int SocksPort = 2334;
         public const int HttpPort = 2335;
         public const int PacPort = 2336;
+        public const int ApiPort = 7332;
 
         public const string PacProxyFileName = "proxy.pac";
     }

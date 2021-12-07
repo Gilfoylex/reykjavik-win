@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
+using System.Windows.Threading;
 
 namespace Reykjavik.view_models
 {
@@ -19,7 +20,7 @@ namespace Reykjavik.view_models
         private void StartXRay()
         {
             var path = GenXrayConfig();
-            _xRayProcessHelper.Start(path);
+            _xRayProcessHelper.Start(path, models.DefaultXRayConfig.ApiPort);
         }
 
         public void StopXRay()
@@ -38,6 +39,8 @@ namespace Reykjavik.view_models
             ChangeProxy(true);
             ConnectTag = SelectedTag;
             _isConncect = true;
+
+            _speedTimer?.Start();
         });
 
         private Command? _disConnectCommand;
@@ -49,6 +52,11 @@ namespace Reykjavik.view_models
             StopXRay();
             ConnectTag = "";
             _isConncect = false;
+
+            if (_speedTimer != null && _speedTimer.IsEnabled)
+            {
+                _speedTimer.Stop();
+            }
         });
 
         // 配置修改后重启xray，重新设置连接和代理
@@ -456,5 +464,56 @@ namespace Reykjavik.view_models
             wnd.SetShareContent(jsonStr);
             wnd.Show();
         });
+
+        private string _upSpeed = "--";
+        public string UpSpeed
+        {
+            get => _upSpeed + _unit;
+            set => SetProperty(ref _upSpeed, value);
+        }
+
+        private string _downSpeed = "--";
+        public string DownSpeed
+        {
+            get => _downSpeed + _unit;
+            set => SetProperty(ref _downSpeed, value);
+        }
+
+        private string _unit = "/s";
+        private DispatcherTimer? _speedTimer = null;
+        public void InitSpeedTimer()
+        {
+            _speedTimer = new DispatcherTimer();
+            _speedTimer.Interval = TimeSpan.FromSeconds(1);
+            _speedTimer.Tick += _speedTimer_Tick;
+        }
+
+        private void _speedTimer_Tick(object? sender, EventArgs e)
+        {
+            if (!_isConncect) return;
+
+            (long uplink, long downlink) = _xRayProcessHelper.Query(ConnectTag);
+            UpSpeed = FormatSpeed(uplink);
+            DownSpeed = FormatSpeed(downlink);
+        }
+
+        private string FormatSpeed(long srcByte)
+        {
+            float kb = srcByte / 1024f;
+            if (kb < 1024)
+            {
+                return kb.ToString("f1") + "KB";
+            }
+
+            float mb = kb / 1024;
+
+            if (mb < 1024)
+            {
+                return mb.ToString("f2") + "MB";
+            }
+
+            float gb = mb / 1024;
+            return gb.ToString("f2") + "GB";
+        }
     }
 }

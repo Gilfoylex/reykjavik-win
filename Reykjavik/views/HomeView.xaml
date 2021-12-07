@@ -34,6 +34,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <ct:TextButton Width="50" Height="25" Style="{DynamicResource BtnStyle}" Command="{Binding ConnectCommand}" Content="连接">
@@ -138,6 +139,11 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Label Content="代理速度：" Style="{DynamicResource SubTitle}"></Label>
+            <Label Margin="5 0 30 0" Style="{DynamicResource SubTitle}" Content="{Binding UpSpeed}" ContentStringFormat="上行：{0}"></Label>
+            <Label Style="{DynamicResource SubTitle}" Content="{Binding DownSpeed}" ContentStringFormat="下行：{0}"></Label>
+        </StackPanel>
         <Popup x:Name="importPopup" StaysOpen="False" IsOpen="False" Width="400" Height="500" Placement="Center" AllowsTransparency="True">
             <Grid>
                 <Border Background="White" Opacity="1" CornerRadius="10"></Border>

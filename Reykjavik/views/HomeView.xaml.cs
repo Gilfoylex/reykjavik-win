@@ -16,6 +16,7 @@ namespace Reykjavik.views
         public HomeView()
         {
             InitializeComponent();
+            MainViewModel.Instance.InitSpeedTimer();
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

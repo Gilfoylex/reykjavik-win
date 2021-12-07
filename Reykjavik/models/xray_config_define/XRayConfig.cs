@@ -73,6 +73,7 @@ namespace Reykjavik.models.XRayConfigDefine
     public class Policy
     {
         public Dictionary<string, Level> levels { get; set; }
+        [JsonPropertyName("system")]
         public PolicySystem PolicySystem { get; set; }
     }
 
