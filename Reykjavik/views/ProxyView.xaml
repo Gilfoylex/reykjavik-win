@@ -15,6 +15,14 @@
                     <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource SubTitle}">代理地址：</Label>
+                <TextBox HorizontalAlignment="Left" Width="80" Grid.Column="1" Style="{DynamicResource OneLineInput}" Text="{Binding IpAddress}"></TextBox>
+            </Grid>
+            <Grid Margin="0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <Label Style="{DynamicResource SubTitle}">SOCKS代理端口：</Label>
                 <TextBox HorizontalAlignment="Left" Width="60" Grid.Column="1" Style="{DynamicResource OneLineInput}" Text="{Binding SocksPort}"></TextBox>
             </Grid>

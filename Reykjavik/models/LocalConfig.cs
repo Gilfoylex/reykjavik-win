@@ -9,7 +9,7 @@ namespace Reykjavik.models
 {
     public class LocalConfig
     {
-
+        public string IpAddress { get; set; } = DefaultXRayConfig.IpAddress;
         public int SocksPort { get; set; } = DefaultXRayConfig.SocksPort;
         public int HttpPort { get; set; } = DefaultXRayConfig.HttpPort;
         public int PacPort { get; set; } = DefaultXRayConfig.PacPort;

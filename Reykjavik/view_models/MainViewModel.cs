@@ -101,7 +101,7 @@ namespace Reykjavik.view_models
                     if (length > 500)
                     {
                         var header = _pacContent[..500];
-                        header = header.Replace("__PROXY__", @$"""PROXY 127.0.0.1:{HttpPort};""");
+                        header = header.Replace("__PROXY__", @$"""PROXY {IpAddress}:{HttpPort};""");
                         var body = _pacContent.Substring(500, length - 500);
                         return header + body;
                     }

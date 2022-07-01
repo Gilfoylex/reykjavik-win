@@ -10,6 +10,14 @@ namespace Reykjavik.view_models
 {
     partial class MainViewModel
     {
+        private string _ipAddress = "127.0.0.1";
+
+        public string IpAddress
+        {
+            get => _ipAddress;
+            set => SetProperty(ref _ipAddress, value);
+        }
+
         private int _socksPort;
 
         public int SocksPort
@@ -52,6 +60,7 @@ namespace Reykjavik.view_models
 
         private void InitProxySetting()
         {
+            IpAddress = _localConfig.IpAddress;
             SocksPort = _localConfig.SocksPort;
             HttpPort = _localConfig.HttpPort;
             PacPort = _localConfig.PacPort;
@@ -76,8 +85,11 @@ namespace Reykjavik.view_models
             _localConfig.PacPort = PacPort;
             _localConfig.HttpPort = HttpPort;
             _localConfig.SocksPort = SocksPort;
-            UpdateHttpPort(HttpPort);
-            UpdateSocksPort(SocksPort);
+            _localConfig.IpAddress = IpAddress;
+            UpdateHttpListenAndPort(IpAddress, HttpPort);
+            UpdateSocksListenAndPort(IpAddress, SocksPort);
+            UpdateApiIpAddress(IpAddress);
+
             SaveLocalConfig();
 
             if (_isConncect)
@@ -86,25 +98,40 @@ namespace Reykjavik.view_models
             }
         });
 
-        private void UpdateHttpPort(int port)
+        private void UpdateHttpListenAndPort(string ipAddress, int port)
         {
             foreach (var item in _localConfig.LocalInBounds)
             {
                 if (item.tag == DefaultXRayConfig.MainHttpTag)
                 {
                     item.port = port;
+                    item.listen = ipAddress;
                     break;
                 }
             }
         }
 
-        private void UpdateSocksPort(int port)
+        private void UpdateApiIpAddress(string ipAddress)
+        {
+            foreach (var item in _localConfig.LocalInBounds)
+            {
+                if (item.tag == DefaultXRayConfig.ApiTag)
+                {
+                    item.listen = ipAddress;
+                    item.settings.address = ipAddress;
+                    break;
+                }
+            }
+        }
+
+        private void UpdateSocksListenAndPort(string ipAddress, int port)
         {
             foreach (var item in _localConfig.LocalInBounds)
             {
                 if (item.tag == DefaultXRayConfig.MainSocksTag)
                 {
                     item.port = port;
+                    item.listen = ipAddress;
                     break;
                 }
             }
@@ -133,12 +160,12 @@ namespace Reykjavik.view_models
 
             if (string.Compare(ProxyMode, "pac", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                utils.SystemProxy.SetSystemProxy(2, $"http://127.0.0.1:{PacPort}/{DefaultXRayConfig.PacProxyFileName}");
+                utils.SystemProxy.SetSystemProxy(2, $"http://{IpAddress}:{PacPort}/{DefaultXRayConfig.PacProxyFileName}");
                 ProxySetted = true;
             }
             else if (string.Compare(ProxyMode, "global", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                utils.SystemProxy.SetSystemProxy(1, $"127.0.0.1:{HttpPort}");
+                utils.SystemProxy.SetSystemProxy(1, $"{IpAddress}:{HttpPort}");
                 ProxySetted = true;
             }
             else
