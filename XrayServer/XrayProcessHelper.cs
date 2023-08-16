@@ -24,7 +24,7 @@ namespace XrayServer
             _xrayPath = Path.Join(currentPath, "xray_x64.exe");
         }
 
-        public async void Start(string configPath, int apiPort)
+        public async void Start(string configPath, string ipAddress, int apiPort)
         {
             await Task.Factory.StartNew(() =>
             {
@@ -39,7 +39,7 @@ namespace XrayServer
                     _process.Start();
                     Interlocked.Increment(ref _isRuning);
 
-                    _channel = GrpcChannel.ForAddress($"http://127.0.0.1:{apiPort}");
+                    _channel = GrpcChannel.ForAddress($"http://{ipAddress}:{apiPort}");
 
                     // 利用job作业系统管理子进程的生命周期
                     ChildProcessTracker.AddProcess(_process);

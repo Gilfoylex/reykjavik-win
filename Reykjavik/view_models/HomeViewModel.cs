@@ -20,7 +20,7 @@ namespace Reykjavik.view_models
         private void StartXRay()
         {
             var path = GenXrayConfig();
-            _xRayProcessHelper.Start(path, models.DefaultXRayConfig.ApiPort);
+            _xRayProcessHelper.Start(path, IpAddress, models.DefaultXRayConfig.ApiPort);
         }
 
         public void StopXRay()
@@ -258,6 +258,10 @@ namespace Reykjavik.view_models
                 if (string.Compare(ot.streamSettings.network, "ws", StringComparison.OrdinalIgnoreCase) == 0 && ot.streamSettings.wsSettings != null)
                 {
                     ret.WsPath = ot.streamSettings.wsSettings.path;
+                    if (ot.streamSettings.wsSettings.headers != null && ot.streamSettings.wsSettings.headers.TryGetValue("host", out var settingsHeader))
+                    {
+                        ret.WsHost = settingsHeader;
+                    }
                 }
 
                 if (string.Compare(ot.streamSettings.security, "tls", StringComparison.OrdinalIgnoreCase) == 0 && ot.streamSettings.tlsSettings != null)
@@ -354,6 +358,11 @@ namespace Reykjavik.view_models
                     {
                         path = vm.WsPath
                     };
+
+                    if (!string.IsNullOrEmpty(vm.WsHost))
+                    {
+                        ret.streamSettings.wsSettings.headers = new Dictionary<string, string>(){{"host", vm.WsHost}};
+                    }
                 }
 
                 if (string.Compare(vm.Security, "tls", StringComparison.OrdinalIgnoreCase) == 0)

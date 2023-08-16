@@ -143,6 +143,14 @@ namespace Reykjavik.view_models
             set => SetProperty(ref _wsPath, value);
         }
 
+        private string _wsHost = "";
+
+        public string WsHost
+        {
+            get => _wsHost;
+            set => SetProperty(ref _wsHost, value);
+        }
+
         #endregion
 
 
@@ -192,6 +200,7 @@ namespace Reykjavik.view_models
             TlsServerAddress = other.TlsServerAddress;
             AllowInsecure = other.AllowInsecure;
             WsPath = other.WsPath;
+            WsHost = other.WsHost;
         }
     }
 }

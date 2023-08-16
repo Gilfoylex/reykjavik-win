@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+     <Version>1.0.1.0</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Authors>gilfoylex</Authors>
+    <Company>gilfoylex</Company>
+    <Copyright>Copyright © 2023 gilfoylex</Copyright>
+    <Product>Reykjavik</Product>
+  </PropertyGroup>
+</Project>
